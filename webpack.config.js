@@ -6,12 +6,14 @@ const UglifyWebpackPlugin = webpack.optimize.UglifyJsPlugin;
 module.exports = {
     metadata: {
         host: process.env.HOST || 'localhost',
-        port: process.env.PORT || 3000,
+        port: process.env.PORT || 8080,
         ENV: process.env.ENV || 'development'
     },
     devtool: 'source-map',
     devServer: {
-        outputPath: path.join(__dirname, './dist')
+        outputPath: path.join(__dirname, './dist'),
+        contentBase: 'http://localhost:8080/',
+        stats: { colors: true }
     },
     debug: true,
     entry: {
@@ -37,7 +39,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
-                include: [ path.resolve(__dirname, './src/app') ]
+                include: [ path.resolve(__dirname, './src/app/scripts') ]
             },
             {
                 test: /\.html$/,
@@ -78,9 +80,5 @@ module.exports = {
                 warnings: false
             }
         })
-    ],
-    devServer: {
-        contentBase: 'http://localhost:8080/',
-        stats: { colors: true }
-    }
+    ]
 };
