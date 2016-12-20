@@ -3,16 +3,21 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyWebpackPlugin = webpack.optimize.UglifyJsPlugin;
 
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 8080;
+const environment = process.env.NODE_ENV || 'development';
+console.log(`Running webpack for the ${environment} environment...`);
+
 module.exports = {
     metadata: {
-        host: process.env.HOST || 'localhost',
-        port: process.env.PORT || 8080,
-        ENV: process.env.ENV || 'development'
+        host: host,
+        port: port,
+        ENV: environment
     },
     devtool: 'source-map',
     devServer: {
         outputPath: path.join(__dirname, './dist'),
-        contentBase: 'http://localhost:8080/',
+        contentBase: `http://${host}:${port}/`,
         stats: { colors: true }
     },
     debug: true,
@@ -62,17 +67,6 @@ module.exports = {
     },
     tslint: {
         emitErrors: true
-    },
-    htmlLoader: {
-        caseSensitive: true,
-        customAttributeAssign: [/\)?\]?=/],
-        customAttributeSurround: [
-            [/#/, /(?:)/],
-            [/\*/, /(?:)/],
-            [/\[?\(?/, /(?:)/]
-        ],
-        minimize: true,
-        removeAttributeQuotes: false
     },
     plugins: [
         new HtmlWebpackPlugin({
