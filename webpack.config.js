@@ -54,14 +54,29 @@ module.exports = {
                 include: [ path.resolve(__dirname, './src') ]
             },
             {
-                loader: 'css-to-string-loader!css-loader!resolve-url-loader!sass-loader?sourceMap',
+                loader: 'style-loader!css-loader!resolve-url-loader!sass-loader?sourceMap',
                 test: /\.scss$/,
                 include: [ path.resolve(__dirname, './src') ]
             },
             {
-                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                loader: 'file-loader?name=assets/[name].[hash].[ext]',
-                include: [ path.resolve(__dirname, './src') ]
+                loader: 'style-loader!css-loader!resolve-url-loader',
+                test: /\.css$/
+            },
+            {
+                test: /\.(woff|woff2)$/,
+                loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+            },
+            {
+                test: /\.tff$/,
+                loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+            },
+            {
+                test: /\.svg$/,
+                loader: 'url-loader?limit=10000&mimetype=application/svg+xml'
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|eot|ico)$/,
+                loader: 'file-loader?name=assets/[name].[hash].[ext]'
             }
         ]
     },
