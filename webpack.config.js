@@ -17,6 +17,8 @@ module.exports = {
     },
     debug: true,
     entry: {
+        polyfills: path.resolve(__dirname, './src/app/scripts/polyfills.ts'),
+        vendor: path.resolve(__dirname, './src/app/scripts/vendor.ts'),
         app: path.resolve(__dirname, './src/app/scripts/main.ts')
     },
     output: {
@@ -47,9 +49,13 @@ module.exports = {
                 include: [ path.resolve(__dirname, './src') ]
             },
             {
-                loader: 'raw!sass',
+                loader: 'style!css!sass',
                 test: /\.scss$/,
                 include: [ path.resolve(__dirname, './src/app/assets') ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+                loader: 'file?name=assets/[name].[hash].[ext]'
             }
         ]
     },

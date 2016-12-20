@@ -1,9 +1,10 @@
-import 'core-js/client/shim.min.js';
-import 'reflect-metadata/Reflect.js';
-import 'zone.js/dist/zone.js';
-
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
 
 import { AppModule } from './app.module';
+
+if (process.env.ENV === 'production') {
+    enableProdMode();
+}
 
 platformBrowserDynamic().bootstrapModule(AppModule);
