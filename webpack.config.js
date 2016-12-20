@@ -49,7 +49,7 @@ module.exports = {
                 include: [ path.resolve(__dirname, './src') ]
             },
             {
-                loader: 'style!css!sass',
+                loader: 'css-to-string-loader!css-loader!sass-loader',
                 test: /\.scss$/,
                 include: [ path.resolve(__dirname, './src/app/assets') ]
             },
