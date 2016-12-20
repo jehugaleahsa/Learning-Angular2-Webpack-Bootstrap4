@@ -17,9 +17,9 @@ module.exports = {
     },
     debug: true,
     entry: {
-        polyfills: path.resolve(__dirname, './src/app/scripts/polyfills.ts'),
-        vendor: path.resolve(__dirname, './src/app/scripts/vendor.ts'),
-        app: path.resolve(__dirname, './src/app/scripts/main.ts')
+        polyfills: path.resolve(__dirname, './src/polyfills.ts'),
+        vendor: path.resolve(__dirname, './src/vendor.ts'),
+        app: path.resolve(__dirname, './src/main.ts')
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -33,7 +33,7 @@ module.exports = {
         preLoaders: [
             {
                 loader: 'tslint',
-                test: /.ts$/,
+                test: /\.ts$/,
                 exclude: [ path.resolve(__dirname, './node_modules') ]
             }
         ],
@@ -41,7 +41,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
-                include: [ path.resolve(__dirname, './src/app/scripts') ]
+                include: [ path.resolve(__dirname, './src') ]
             },
             {
                 test: /\.html$/,
@@ -49,13 +49,14 @@ module.exports = {
                 include: [ path.resolve(__dirname, './src') ]
             },
             {
-                loader: 'css-to-string-loader!css-loader!sass-loader',
+                loader: 'css-to-string-loader!css-loader!resolve-url-loader!sass-loader?sourceMap',
                 test: /\.scss$/,
-                include: [ path.resolve(__dirname, './src/app/assets') ]
+                include: [ path.resolve(__dirname, './src') ]
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                loader: 'file?name=assets/[name].[hash].[ext]'
+                loader: 'file-loader?name=assets/[name].[hash].[ext]',
+                include: [ path.resolve(__dirname, './src') ]
             }
         ]
     },
@@ -77,7 +78,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
-            template: './src/app/index.html'
+            template: './src/index.html'
         }),
         new UglifyWebpackPlugin({
             minimize: true,
