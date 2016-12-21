@@ -37,9 +37,9 @@ module.exports = {
     module: {
         preLoaders: [
             {
-                loader: 'tslint',
+                loader: 'tslint-loader',
                 test: /\.ts$/,
-                exclude: [ path.resolve(__dirname, './node_modules') ]
+                include: [ path.resolve(__dirname, './src') ]
             }
         ],
         loaders: [
@@ -63,19 +63,19 @@ module.exports = {
                 test: /\.css$/
             },
             {
-                test: /\.(woff|woff2)$/,
-                loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+                test: /\.(woff|woff2)(\?v=[\.\d]+)?$/,
+                loader: 'url-loader?name=assets/[name].[hash].[ext]&limit=10000&mimetype=application/font-woff'
             },
             {
-                test: /\.tff$/,
-                loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+                test: /\.ttf(\?v=[\.\d]+)?$/,
+                loader: 'url-loader?name=assets/[name].[hash].[ext]&limit=10000&mimetype=application/octet-stream'
             },
             {
-                test: /\.svg$/,
-                loader: 'url-loader?limit=10000&mimetype=application/svg+xml'
+                test: /\.svg(\?v=[\.\d]+)?$/,
+                loader: 'url-loader?name=assets/[name].[hash].[ext]&limit=10000&mimetype=application/svg+xml'
             },
             {
-                test: /\.(png|jpe?g|gif|svg|eot|ico)$/,
+                test: /\.(png|jpe?g|gif|eot|ico)(\?v=[\.\d]+)?$/,
                 loader: 'file-loader?name=assets/[name].[hash].[ext]'
             }
         ]

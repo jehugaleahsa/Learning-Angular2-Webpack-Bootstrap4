@@ -1,6 +1,17 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-6 logo">One</div>
-        <div class="col-sm-6">Two</div>
-    </div>
+    <ngb-accordion>
+        <ngb-panel id="1">
+            <template ngbPanelTitle>
+                <span class="fa fa-chevron-right" aria-hidden="true"></span>
+                Panel 1
+            </template>
+            <template ngbPanelContent>Panel 1</template>
+        </ngb-panel>
+        <ngb-panel id="2" title="Panel 2">
+            <template ngbPanelContent>Panel 2</template>
+        </ngb-panel>
+        <ngb-panel id="3" title="Panel 3">
+            <template ngbPanelContent>Panel 3</template>
+        </ngb-panel>
+    </ngb-accordion>
 </div>
