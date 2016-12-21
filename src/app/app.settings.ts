@@ -1,3 +1,3 @@
-export const AppSettings = {
-    environment: "development"
+export class AppSettings {
+    public static environment = "development";
 };
