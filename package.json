@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Learning Angular 2, TypeScript and Boostrap 4",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --progress --config webpack.config.js",
+    "build:prod": "webpack -p --progress --optimize-minimize --config webpack.config.js",
     "lint": "tslint ./src/**/.ts",
-    "start": "webpack-dev-server --config webpack.config.js --hot",
+    "start": "webpack-dev-server --progress --config webpack.config.js",
+    "start:optimized": "webpack-dev-server --progress --optimize-minimize --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
