@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const LoaderOptionsPlugin = webpack.LoaderOptionsPlugin;
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
@@ -61,12 +62,18 @@ const configuration = {
                 include: [ path.resolve(__dirname, './src') ]
             },
             {
-                loader: 'style-loader!css-loader!resolve-url-loader!sass-loader?sourceMap',
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: "style-loader",
+                    loader: "css-loader!resolve-url-loader!sass-loader?sourceMap"
+                }),
                 test: /\.scss$/,
-                include: [ path.resolve(__dirname, './src') ]
+                include: [ path.resolve(__dirname, "./src") ]
             },
             {
-                loader: 'style-loader!css-loader!resolve-url-loader',
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: "style-loader",
+                    loader: "css-loader!resolve-url-loader?sourceMap"
+                }),
                 test: /\.css$/
             },
             {
@@ -114,6 +121,11 @@ const configuration = {
             filename: 'index.html',
             inject: 'body',
             template: './src/index.html'
+        }),
+        new ExtractTextPlugin({
+            filename: applyHash("[name].bundle", "css"),
+            allChunks: true,
+            disable: false
         }),
         new CommonsChunkPlugin({
             names: ["polyfills", "vendor"],
