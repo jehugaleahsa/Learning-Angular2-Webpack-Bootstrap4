@@ -1,26 +1,35 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyWebpackPlugin = webpack.optimize.UglifyJsPlugin;
+const LoaderOptionsPlugin = webpack.LoaderOptionsPlugin;
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
-const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8080;
-const environment = process.env.NODE_ENV || 'development';
+const environment = process.env.NODE_ENV || "debug";
+const isDebug = environment === "debug";
 console.log(`Running webpack for the ${environment} environment...`);
 
-module.exports = {
-    metadata: {
-        host: host,
-        port: port,
-        ENV: environment
-    },
+function applyHash(fileName, extension, isChunk=false) {
+    if (isDebug) {
+        return `${fileName}.${extension}`;
+    } else if (isChunk) {
+        return `${fileName}.[chunkhash].${extension}`;
+    } else {
+        return `${fileName}.[hash].${extension}`;
+    }
+}
+
+const configuration = {
     devtool: 'source-map',
     devServer: {
-        outputPath: path.join(__dirname, './dist'),
-        contentBase: `http://${host}:${port}/`,
+        publicPath: "/",
+        compress: !isDebug,
+        inline: isDebug,
+        contentBase: "/",
+        port: port,
         stats: { colors: true }
     },
-    debug: true,
     entry: {
         polyfills: path.resolve(__dirname, './src/polyfills.ts'),
         vendor: path.resolve(__dirname, './src/vendor.ts'),
@@ -28,23 +37,21 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.[hash].js',
-        sourcemapFilename: '[name].map'
+        filename: applyHash('[name].bundle', 'js', true)
     },
     resolve: {
-        extensions: ['', '.ts', '.tsx', '.js']
+        extensions: ['.ts', '.js']
     },
     module: {
-        preLoaders: [
+        rules: [
             {
-                loader: 'tslint-loader',
+                enforce: "pre",
                 test: /\.ts$/,
-                include: [ path.resolve(__dirname, './src') ]
-            }
-        ],
-        loaders: [
+                loader: "tslint-loader",
+                include: [ path.resolve(__dirname, "./src") ]
+            },
             {
-                test: /\.tsx?$/,
+                test: /\.ts$/,
                 loader: 'ts-loader',
                 include: [ path.resolve(__dirname, './src') ]
             },
@@ -64,37 +71,69 @@ module.exports = {
             },
             {
                 test: /\.(woff|woff2)(\?v=[\.\d]+)?$/,
-                loader: 'url-loader?name=assets/[name].[hash].[ext]&limit=10000&mimetype=application/font-woff'
+                loader: 'url-loader',
+                query: {
+                    name: applyHash("assets/[name]", "[ext]"),
+                    limit: 10000,
+                    mimetype: "application/font-woff"
+                }
             },
             {
                 test: /\.ttf(\?v=[\.\d]+)?$/,
-                loader: 'url-loader?name=assets/[name].[hash].[ext]&limit=10000&mimetype=application/octet-stream'
+                loader: 'url-loader',
+                query: {
+                    name: applyHash("assets/[name]", "[ext]"),
+                    limit: 10000,
+                    mimetype: "application/octet-stream"
+                }
             },
             {
                 test: /\.svg(\?v=[\.\d]+)?$/,
-                loader: 'url-loader?name=assets/[name].[hash].[ext]&limit=10000&mimetype=application/svg+xml'
+                loader: 'url-loader',
+                query: {
+                    name: applyHash("assets/[name]", "[ext]"),
+                    limit: 10000,
+                    mimetype: "application/svg+xml"
+                }
             },
             {
                 test: /\.(png|jpe?g|gif|eot|ico)(\?v=[\.\d]+)?$/,
-                loader: 'file-loader?name=assets/[name].[hash].[ext]'
+                loader: 'file-loader',
+                query: {
+                    name: applyHash("assets/[name]", "[ext]")
+                }
             }
         ]
     },
-    tslint: {
-        emitErrors: true
-    },
     plugins: [
+        new LoaderOptionsPlugin({
+            minimize: !isDebug,
+            debug: isDebug
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
             template: './src/index.html'
         }),
-        new UglifyWebpackPlugin({
-            minimize: true,
-            sourceMap: true,
-            compress: {
-                warnings: false
-            }
+        new CommonsChunkPlugin({
+            names: ["polyfills", "vendor"],
+            minChunks: Infinity
         })
     ]
 };
+if (!isDebug) {
+    configuration.plugins.push(
+        new UglifyJsPlugin({
+            mangle: {
+                keep_fnames: true
+            },
+            compress: {
+                warnings: false
+            },
+            output: {
+                comments: false
+            }
+        })
+    );
+}
+module.exports = configuration;
