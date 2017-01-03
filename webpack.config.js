@@ -22,7 +22,7 @@ function applyHash(fileName, extension, isChunk=false) {
 }
 
 const configuration = {
-    devtool: 'source-map',
+    devtool: '#source-map',
     devServer: {
         publicPath: "/",
         compress: !isDebug,
