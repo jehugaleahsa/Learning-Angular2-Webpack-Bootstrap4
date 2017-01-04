@@ -3,10 +3,10 @@ import { Component, Input } from "@angular/core";
 import "bootstrap/dist/css/bootstrap.css";
 
 @Component({
-    selector: "my-panel",
-    template: require("./my-panel.component.html")
+    selector: "core-panel",
+    template: require("./core-panel.component.html")
 })
-export class MyPanelComponent {
+export class CorePanelComponent {
     @Input() public iconClass: String;
     @Input() public title: String;
 }

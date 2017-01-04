@@ -3,11 +3,11 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from "./app.component";
-import { MyUIModule } from "./my-ui/my-ui.module";
+import { CoreUIModule } from "./core-ui/core-ui.module";
 
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [ AppComponent ],
-  imports: [ BrowserModule, NgbModule.forRoot(), MyUIModule ]
+  imports: [ BrowserModule, NgbModule.forRoot(), CoreUIModule ]
 })
 export class AppModule { }
