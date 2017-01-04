@@ -1,0 +1,8 @@
+<ngb-accordion class="main-accordion" (panelChange)="onPanelChange($event)">
+    <ngb-panel id="main-panel">
+        <template ngbPanelTitle><span class="fa" [ngClass]="{'fa-chevron-circle-right': !isOpen, 'fa-chevron-circle-down': isOpen}"></span> {{title}}</template>
+        <template ngbPanelContent>
+            <ng-content></ng-content>
+        </template>
+    </ngb-panel>
+</ngb-accordion>
