@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import "bootstrap/dist/css/bootstrap.css";
+import "./core-panel.component.scss";
 
 @Component({
     selector: "core-panel",

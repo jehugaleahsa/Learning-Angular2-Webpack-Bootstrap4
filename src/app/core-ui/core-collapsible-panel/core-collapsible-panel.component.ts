@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { NgbAccordion, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 
-import "bootstrap/dist/css/bootstrap.css";
+import "./core-collapsible-panel.component.scss";
 
 @Component({
     selector: "core-collapsible-panel",
@@ -10,11 +10,12 @@ import "bootstrap/dist/css/bootstrap.css";
 export class CoreCollapsiblePanelComponent {
     private static _panelId: string = "main-panel";
     private _isOpen: boolean = false;
-    @ViewChild(".main-accordion") accordion: NgbAccordion;
+    @ViewChild(NgbAccordion) private accordion: NgbAccordion;
 
     @Input()
     public title: String;
 
+    @Input("is-open")
     public get isOpen(): boolean {
         return this._isOpen;
     }

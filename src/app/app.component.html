@@ -2,7 +2,16 @@
     <core-panel iconClass="icon icon-crm" title="Panel Header">
         So I can stick anything in here.
     </core-panel>
-    <core-collapsible-panel title="Collapsible Panel Header">
+    <core-collapsible-panel title="Collapsible Panel Header" [(is-open)]="isOpen">
         This content is collapsible.
     </core-collapsible-panel>
+    <div class="form-inline">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" [(ngModel)]="isOpen" class="form-check-input" />
+                <span *ngIf="!isOpen">Check to expand</span>
+                <span *ngIf="isOpen">Uncheck to collapse</span>
+            </label>
+        </div>
+    </div>
 </div>
