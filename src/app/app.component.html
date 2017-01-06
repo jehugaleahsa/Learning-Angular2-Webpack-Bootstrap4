@@ -1,17 +1,34 @@
 <div class="container-fluid">
-    <core-panel iconClass="icon icon-crm" title="Panel Header">
-        So I can stick anything in here.
-    </core-panel>
-    <core-collapsible-panel title="Collapsible Panel Header" [(is-open)]="isOpen">
-        This content is collapsible.
-    </core-collapsible-panel>
-    <div class="form-inline">
-        <div class="form-check">
-            <label class="form-check-label">
-                <input type="checkbox" [(ngModel)]="isOpen" class="form-check-input" />
-                <span *ngIf="!isOpen">Check to expand</span>
-                <span *ngIf="isOpen">Uncheck to collapse</span>
-            </label>
+    <div class="row">
+        <div class="col-xs-12">
+            <core-panel iconClass="icon icon-crm" title="Panel Header">
+                So I can stick anything in here.
+            </core-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <core-collapsible-panel title="Collapsible Panel Header" [(is-open)]="_isPanelOpen">
+                This content is collapsible.
+            </core-collapsible-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" name="chkCollapsiblePanel" type="checkbox" [(ngModel)]="_isPanelOpen" />
+                    {{collapsibleMessage}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <core-date-picker name="dtDate"
+                              [(date)]="_date"
+                              [min-date]="_minDate"
+                              [max-date]="_maxDate"></core-date-picker>
         </div>
     </div>
 </div>

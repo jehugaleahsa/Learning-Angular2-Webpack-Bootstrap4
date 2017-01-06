@@ -13,8 +13,7 @@
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "types": ["node"]
+        "noImplicitThis": true
     },
     "exclude": ["node_modules"]
 }

@@ -12,6 +12,7 @@ import "@angular/router";
 // Other
 // JS
 import "@ng-bootstrap/ng-bootstrap";
+import "moment";
 
 // CSS
 import "bootstrap/dist/css/bootstrap.css";
