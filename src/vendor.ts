@@ -1,3 +1,5 @@
+import "./polyfills";
+
 // Angular
 import "@angular/common";
 import "@angular/core";
