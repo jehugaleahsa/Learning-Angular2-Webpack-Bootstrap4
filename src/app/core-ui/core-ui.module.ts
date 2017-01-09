@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbDateParserFormatter, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
+import { ControlStatus } from "./control-status";
 import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-collapsible-panel.component";
 import { CoreDatePickerComponent } from "./core-date-picker/core-date-picker.component";
 import { CoreDatePickerParserFormatter } from "./core-date-picker/core-date-picker.parserformatter";

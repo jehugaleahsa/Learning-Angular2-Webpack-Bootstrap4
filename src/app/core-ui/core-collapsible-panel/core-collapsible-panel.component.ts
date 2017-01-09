@@ -1,6 +1,8 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { NgbAccordion, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 
+import { ControlStatus } from "../control-status";
+
 import "./core-collapsible-panel.component.scss";
 
 @Component({
@@ -10,7 +12,9 @@ import "./core-collapsible-panel.component.scss";
 export class CoreCollapsiblePanelComponent {
     private static _panelId: string = "main-panel";
     private _isOpen: boolean = false;
-    @ViewChild(NgbAccordion) private accordion: NgbAccordion;
+    private _status: ControlStatus = ControlStatus.None;
+    private _outlineClass: string = "";
+    private _headerClass: string = "";
 
     @Input()
     public title: String;
@@ -23,7 +27,32 @@ export class CoreCollapsiblePanelComponent {
     public set isOpen(value: boolean) {
         if (value !== this._isOpen) {
             this._isOpen = value;
-            this.accordion.toggle(CoreCollapsiblePanelComponent._panelId);
+        }
+    }
+
+    public toggle(): void {
+        this._isOpen = !this._isOpen;
+    }
+
+    @Input() public get status(): ControlStatus {
+        return this._status;
+    }
+
+    public set status(value: ControlStatus) {
+        if (typeof ControlStatus[value] === "undefined") {
+            this._status = ControlStatus.None;
+        } else {
+            this._status = value;
+        }
+        if (this._status === ControlStatus.Success) {
+            this._outlineClass = "card-outline-success";
+            this._headerClass = "card-success card-inverse";
+        } else if (this._status === ControlStatus.Error) {
+            this._outlineClass = "card-outline-danger";
+            this._headerClass = "card-danger card-inverse";
+        } else {
+            this._outlineClass = "";
+            this._headerClass = "";
         }
     }
 

@@ -1,8 +1,14 @@
-<ngb-accordion class="core-collapsible-panel" (panelChange)="onPanelChange($event)">
-    <ngb-panel id="main-panel">
-        <template ngbPanelTitle><span class="title-icon fa" [ngClass]="{'fa-chevron-circle-right': !isOpen, 'fa-chevron-circle-down': isOpen}"></span>{{title}}</template>
-        <template ngbPanelContent>
+<div class="card core-collapsible-panel" [ngClass]="_outlineClass">
+    <div class="card-header" [ngClass]="_headerClass">
+        <a href="#" (click)=toggle()>
+            <span class="title-icon fa"
+                  [class.fa-chevron-circle-right]="!isOpen"
+                  [class.fa-chevron-circle-down]="isOpen"></span>{{title}}
+        </a>
+    </div>
+    <div class="card-block" *ngIf="isOpen">
+        <div class="card-text">
             <ng-content></ng-content>
-        </template>
-    </ngb-panel>
-</ngb-accordion>
+        </div>
+    </div>
+</div>
