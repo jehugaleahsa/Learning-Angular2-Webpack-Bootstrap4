@@ -18,7 +18,7 @@ export class CoreDatePickerComponent {
         this._date = CoreDatePickerComponent.toDateStruct(value);
     }
 
-    @Input("min-date") public get minDate(): Date {
+    @Input() public get minDate(): Date {
         return CoreDatePickerComponent.toDate(this._minDate);
     }
 
@@ -26,7 +26,7 @@ export class CoreDatePickerComponent {
         this._minDate = CoreDatePickerComponent.toDateStruct(value);
     }
 
-    @Input("max-date") public get maxDate(): Date {
+    @Input() public get maxDate(): Date {
         return CoreDatePickerComponent.toDate(this._maxDate);
     }
 

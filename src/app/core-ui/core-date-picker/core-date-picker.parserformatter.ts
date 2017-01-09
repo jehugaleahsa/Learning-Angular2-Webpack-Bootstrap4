@@ -10,7 +10,7 @@ export class CoreDatePickerParserFormatter extends NgbDateParserFormatter {
         if (date === null) {
             return "";
         }
-        let value = moment({
+        const value = moment({
             day: date.day,
             month: date.month - 1,
             year: date.year
@@ -22,7 +22,7 @@ export class CoreDatePickerParserFormatter extends NgbDateParserFormatter {
         if (!value) {
             return null;
         }
-        let date = moment(value, this.dateFormat);
+        const date = moment(value, this.dateFormat);
         if (!date.isValid()) {
             return null;
         }

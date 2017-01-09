@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <core-panel iconClass="icon icon-crm" title="Panel Header" [status]="_panelStatus">
                 So I can stick anything in here.
             </core-panel>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-secondary" (click)="setPanelNormal()">Normal</button>
                 <button type="button" class="btn btn-success" (click)="setPanelSuccess()">Success</button>
@@ -16,16 +16,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <core-collapsible-panel title="Collapsible Panel Header"
-                                    [is-open]="_isPanelOpen"
+                                    [isOpen]="_isPanelOpen"
+                                    (isOpenChanged)="updatePanelStatus($event)"
                                     [status]="_collapsiblePanelStatus">
                 This content is collapsible.
             </core-collapsible-panel>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-secondary" (click)="setCollapsiblePanelNormal()">Normal</button>
                 <button type="button" class="btn btn-success" (click)="setCollapsiblePanelSuccess()">Success</button>
@@ -34,7 +35,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <div class="form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" name="chkCollapsiblePanel" type="checkbox" [(ngModel)]="_isPanelOpen" />
@@ -44,11 +45,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <core-date-picker name="dtDate"
                               [(date)]="_date"
-                              [min-date]="_minDate"
-                              [max-date]="_maxDate"></core-date-picker>
+                              [minDate]="_minDate"
+                              [maxDate]="_maxDate"></core-date-picker>
         </div>
     </div>
 </div>

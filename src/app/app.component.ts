@@ -2,6 +2,9 @@ import { Component } from "@angular/core";
 import * as moment from "moment";
 
 import { ControlStatus } from "./core-ui/control-status";
+import {
+    CoreCollapsiblePanelChangedEvent
+} from "./core-ui/core-collapsible-panel/core-collaspsible-panel-changed-event";
 
 import "./app.component.scss";
 
@@ -25,6 +28,10 @@ export class AppComponent {
         } else {
             return "Click here to expand.";
         }
+    }
+
+    private updatePanelStatus(event: CoreCollapsiblePanelChangedEvent): void {
+        this._isPanelOpen = event.isOpen;
     }
 
     private setPanelNormal(): void {

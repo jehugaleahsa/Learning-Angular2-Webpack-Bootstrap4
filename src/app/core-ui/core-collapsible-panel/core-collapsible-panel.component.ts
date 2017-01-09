@@ -1,7 +1,8 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { NgbAccordion, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 
 import { ControlStatus } from "../control-status";
+import { CoreCollapsiblePanelChangedEvent } from "./core-collaspsible-panel-changed-event";
 
 import "./core-collapsible-panel.component.scss";
 
@@ -19,7 +20,7 @@ export class CoreCollapsiblePanelComponent {
     @Input()
     public title: String;
 
-    @Input("is-open")
+    @Input()
     public get isOpen(): boolean {
         return this._isOpen;
     }
@@ -32,6 +33,9 @@ export class CoreCollapsiblePanelComponent {
 
     public toggle(): void {
         this._isOpen = !this._isOpen;
+        const event = new CoreCollapsiblePanelChangedEvent();
+        event.isOpen = this._isOpen;
+        this.isOpenChanged.next(event);
     }
 
     @Input() public get status(): ControlStatus {
@@ -56,9 +60,5 @@ export class CoreCollapsiblePanelComponent {
         }
     }
 
-    public onPanelChange($event: NgbPanelChangeEvent) {
-        if ($event.panelId === CoreCollapsiblePanelComponent._panelId) {
-            this._isOpen = $event.nextState;
-        }
-    }
+    @Output() private isOpenChanged = new EventEmitter<CoreCollapsiblePanelChangedEvent>();
 }
