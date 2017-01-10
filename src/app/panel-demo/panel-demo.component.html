@@ -1,0 +1,12 @@
+<core-panel iconClass="icon icon-crm" title="Panel Header" [status]="_panelStatus">
+    So I can stick anything in here.
+</core-panel>
+<div class="row">
+    <div class="col">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary" (click)="setPanelNormal()">Normal</button>
+            <button type="button" class="btn btn-success" (click)="setPanelSuccess()">Success</button>
+            <button type="button" class="btn btn-danger" (click)="setPanelError()">Error</button>
+        </div>
+    </div>
+</div>

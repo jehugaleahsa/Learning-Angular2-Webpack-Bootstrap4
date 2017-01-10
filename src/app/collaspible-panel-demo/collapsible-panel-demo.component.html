@@ -1,0 +1,25 @@
+<core-collapsible-panel title="Collapsible Panel Header"
+                                    [isOpen]="_isPanelOpen"
+                                    (isOpenChanged)="updatePanelStatus($event)"
+                                    [status]="_collapsiblePanelStatus">
+    This content is collapsible.
+</core-collapsible-panel>
+<div class="row">
+    <div class="col">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary" (click)="setCollapsiblePanelNormal()">Normal</button>
+            <button type="button" class="btn btn-success" (click)="setCollapsiblePanelSuccess()">Success</button>
+            <button type="button" class="btn btn-danger" (click)="setCollapsiblePanelError()">Error</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" name="chkCollapsiblePanel" type="checkbox" [(ngModel)]="_isPanelOpen" />
+                {{collapsibleMessage}}
+            </label>
+        </div>
+    </div>
+</div>

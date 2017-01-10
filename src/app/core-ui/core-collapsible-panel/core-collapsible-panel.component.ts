@@ -31,11 +31,12 @@ export class CoreCollapsiblePanelComponent {
         }
     }
 
-    public toggle(): void {
+    public toggle(): boolean {
         this._isOpen = !this._isOpen;
         const event = new CoreCollapsiblePanelChangedEvent();
         event.isOpen = this._isOpen;
         this.isOpenChanged.next(event);
+        return false;
     }
 
     @Input() public get status(): ControlStatus {
