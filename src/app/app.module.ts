@@ -18,6 +18,7 @@ import { CoreUIModule } from "./core-ui/core-ui.module";
 import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.component";
 import { HomeComponent } from "./home/home.component";
 import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
+import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -26,7 +27,8 @@ import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
     CollapsiblePanelDemoComponent,
     DatePickerDemoComponent,
     HomeComponent,
-    PanelDemoComponent
+    PanelDemoComponent,
+    SpinnerDemoComponent
   ],
   imports: [
     BrowserModule,
