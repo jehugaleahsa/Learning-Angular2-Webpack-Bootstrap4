@@ -29,7 +29,8 @@ const configuration = {
         inline: isDebug,
         contentBase: "/",
         port: port,
-        stats: { colors: true }
+        stats: { colors: true },
+        historyApiFallback: true
     },
     entry: {
         polyfills: path.resolve(__dirname, './src/polyfills.ts'),
@@ -118,9 +119,15 @@ const configuration = {
             debug: isDebug
         }),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            inject: 'body',
-            template: './src/index.html'
+            filename: "index.html",
+            inject: "body",
+            template: "./src/index.html",
+            chunksSortMode: function (left, right) {
+                const values = { polyfills: 0, vendor: 1, app: 2 };
+                const leftValue = values[left.names[0].split(".", 2)[0]];
+                const rightValue = values[right.names[0].split(".", 2)[0]];
+                return leftValue - rightValue;
+            }
         }),
         new ExtractTextPlugin({
             filename: applyHash("[name].bundle", "css"),

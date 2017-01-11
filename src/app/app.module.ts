@@ -19,8 +19,6 @@ import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.com
 import { HomeComponent } from "./home/home.component";
 import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
 
-const locationStrategy = HashLocationStrategy;
-
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
@@ -39,7 +37,7 @@ const locationStrategy = HashLocationStrategy;
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: AppSettings.baseHref },
-    { provide: LocationStrategy, useClass: locationStrategy  }
+    { provide: LocationStrategy, useClass: PathLocationStrategy  }
   ]
 })
 export class AppModule { }
