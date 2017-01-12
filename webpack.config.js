@@ -39,7 +39,8 @@ const configuration = {
     },
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: applyHash('[name].bundle', 'js', true)
+        filename: applyHash('[name].bundle', 'js', true),
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.ts', '.js']
@@ -124,8 +125,8 @@ const configuration = {
             template: "./src/index.html",
             chunksSortMode: function (left, right) {
                 const values = { polyfills: 0, vendor: 1, app: 2 };
-                const leftValue = values[left.names[0].split(".", 2)[0]];
-                const rightValue = values[right.names[0].split(".", 2)[0]];
+                const leftValue = values[left.names[0]];
+                const rightValue = values[right.names[0]];
                 return leftValue - rightValue;
             }
         }),
