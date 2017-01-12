@@ -12,7 +12,7 @@
         </ul>
     </div>
     <div class="card-block">
-        <div #outletPlaceholder></div>
-        <router-outlet name="tabs"></router-outlet>
+        <router-outlet></router-outlet>
     </div>
 </div>
+<core-spinner-modal [isOpen]="isLoading"></core-spinner-modal>

@@ -2,14 +2,22 @@ import {
     AfterContentChecked,
     Component,
     ContentChildren,
-    ElementRef,
     Input,
     OnInit,
     QueryList,
-    Renderer,
     ViewChild
 } from "@angular/core";
-import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
+import {
+    ActivatedRoute,
+    Event as RouterEvent,
+    NavigationCancel,
+    NavigationEnd,
+    NavigationError,
+    NavigationStart,
+    Router,
+    RouterOutlet,
+    RouterOutletMap
+} from "@angular/router";
 
 import { CoreRoutingTabDirective } from "./core-routing-tab.directive";
 
@@ -20,20 +28,31 @@ import "./core-routing-tabset.component.scss";
     template: require("./core-routing-tabset.component.html")
 })
 export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
-    //@ViewChild("outletPlaceholder") private placeholder: ElementRef;
+    private isLoading: boolean = false;
+    @ViewChild(RouterOutlet) private outlet: RouterOutlet;
     @ContentChildren(CoreRoutingTabDirective) public tabs: QueryList<CoreRoutingTabDirective>;
 
     constructor(
         private router: Router,
         private activeRoute: ActivatedRoute,
-        private renderer: Renderer) {
+        private outletMap: RouterOutletMap) {
+        this.router.events.subscribe((event: RouterEvent) => {
+            if (event instanceof NavigationStart) {
+                this.isLoading = true;
+            } else if (event instanceof NavigationEnd) {
+                this.isLoading = false;
+            } else if (event instanceof NavigationCancel) {
+                this.isLoading = false;
+            } else if (event instanceof NavigationError) {
+                this.isLoading = false;
+            }
+        });
     }
 
     @Input() public outletName: string;
 
     public ngOnInit() {
-        //const outlet = this.renderer.createElement(this.placeholder.nativeElement, "router-outlet");
-        //this.renderer.setElementAttribute(outlet, "name", this.outletName);
+        this.outletMap.registerOutlet(this.outletName, this.outlet);
     }
 
     public ngAfterContentChecked(): void {
