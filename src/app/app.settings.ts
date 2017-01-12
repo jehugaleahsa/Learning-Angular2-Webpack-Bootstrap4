@@ -1,4 +1,4 @@
 export class AppSettings {
-    public static environment = "development";
+    public static environment = "debug";
     public static baseHref = "/";
 };

@@ -6,7 +6,7 @@
                   [class.fa-chevron-circle-down]="isOpen"></span>{{title}}
         </a>
     </div>
-    <div class="card-block" *ngIf="isOpen">
+    <div class="card-block" [ngbCollapse]="!isOpen">
         <div class="card-text">
             <ng-content></ng-content>
         </div>
