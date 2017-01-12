@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+            <li class="nav-item" *ngFor="let tab of tabs">
+                <a class="nav-link"
+                   href
+                   [class.active]="tab.isActive"
+                   (click)="selectTab(tab)">
+                    {{tab.title}}<template [ngTemplateOutlet]="tab.titleTemplate?.template"></template>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-block">
+        <div #outletPlaceholder></div>
+        <router-outlet name="tabs"></router-outlet>
+    </div>
+</div>

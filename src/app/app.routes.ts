@@ -8,9 +8,14 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
 
 export const routes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },
-    { path: "home", component: HomeComponent },
-    { path: "date-picker-demo", component: DatePickerDemoComponent },
-    { path: "panel-demo", component: PanelDemoComponent },
-    { path: "collapsible-panel-demo", component: CollapsiblePanelDemoComponent },
-    { path: "spinner-demo", component: SpinnerDemoComponent }
+    {
+        children: [
+            { path: "date-picker-demo", component: DatePickerDemoComponent, outlet: "tabs" },
+            { path: "panel-demo", component: PanelDemoComponent, outlet: "tabs" },
+            { path: "collapsible-panel-demo", component: CollapsiblePanelDemoComponent, outlet: "tabs" },
+            { path: "spinner-demo", component: SpinnerDemoComponent, outlet: "tabs" }
+        ],
+        component: HomeComponent,
+        path: "home"
+    }
 ];
