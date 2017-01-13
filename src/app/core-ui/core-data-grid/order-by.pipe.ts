@@ -15,8 +15,10 @@ export class OrderByPipe implements PipeTransform {
             let result = 0;
             if (field1 as string && field2 as string) {
                 result = field1 < field2 ? -1 : field2 < field1 ? 1 : 0;
-            } else if (field1 as number && field2 as number) {
+            } else if (field1 as number | boolean && field2 as number | boolean) {
                 result = field1 - field2;
+            } else if (field1 as Date && field2 as Date) {
+                result = field1 < field2 ? -1 : field2 < field1 ? 1 : 0;
             }
             if (isDescending) {
                 result = -result;
