@@ -1,0 +1,14 @@
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th *ngFor="let column of columns">{{column.name}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr scope="row" *ngFor="let row of data">
+            <td *ngFor="let column of columns">
+                {{ row[column.bind] }}
+            </td>
+        </tr>
+    </tbody>
+</table>

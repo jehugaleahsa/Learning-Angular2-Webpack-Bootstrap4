@@ -9,6 +9,8 @@ import { ControlStatus } from "./control-status";
 import { CoreAlertModalComponent } from "./core-alert-modal/core-alert-modal.component";
 import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-collapsible-panel.component";
 import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-confirmation-modal.component";
+import { CoreDataGridColumnDirective } from "./core-data-grid/core-data-grid-column.directive";
+import { CoreDataGridComponent } from "./core-data-grid/core-data-grid.component";
 import { CoreDatePickerComponent } from "./core-date-picker/core-date-picker.component";
 import { CoreDatePickerParserFormatter } from "./core-date-picker/core-date-picker.parserformatter";
 import { CorePanelComponent } from "./core-panel/core-panel.component";
@@ -23,6 +25,8 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreAlertModalComponent,
         CoreCollapsiblePanelComponent,
         CoreConfirmationModalComponent,
+        CoreDataGridColumnDirective,
+        CoreDataGridComponent,
         CoreDatePickerComponent,
         CorePanelComponent,
         CoreRoutingTabTitleDirective,
@@ -36,6 +40,8 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreAlertModalComponent,
         CoreCollapsiblePanelComponent,
         CoreConfirmationModalComponent,
+        CoreDataGridColumnDirective,
+        CoreDataGridComponent,
         CoreDatePickerComponent,
         CorePanelComponent,
         CoreRoutingTabTitleDirective,

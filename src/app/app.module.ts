@@ -15,6 +15,7 @@ import { routes } from "./app.routes";
 import { AppSettings } from "./app.settings";
 import { CollapsiblePanelDemoComponent } from "./collaspible-panel-demo/collapsible-panel-demo.component";
 import { CoreUIModule } from "./core-ui/core-ui.module";
+import { DataGridDemoComponent } from "./data-grid-demo/data-grid-demo.component";
 import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.component";
 import { HomeComponent } from "./home/home.component";
 import { ModalDemoComponent } from "./modal-demo/modal-demo.component";
@@ -26,6 +27,7 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
   declarations: [
     AppComponent,
     CollapsiblePanelDemoComponent,
+    DataGridDemoComponent,
     DatePickerDemoComponent,
     HomeComponent,
     ModalDemoComponent,
