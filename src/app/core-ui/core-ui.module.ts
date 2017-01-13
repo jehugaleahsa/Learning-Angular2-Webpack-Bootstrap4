@@ -6,6 +6,7 @@ import { NgbDateParserFormatter, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FadingCircleComponent } from "ng-spin-kit";
 
 import { ControlStatus } from "./control-status";
+import { CoreAlertModalComponent } from "./core-alert-modal/core-alert-modal.component";
 import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-collapsible-panel.component";
 import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-confirmation-modal.component";
 import { CoreDatePickerComponent } from "./core-date-picker/core-date-picker.component";
@@ -19,6 +20,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
 
 @NgModule({
     declarations: [
+        CoreAlertModalComponent,
         CoreCollapsiblePanelComponent,
         CoreConfirmationModalComponent,
         CoreDatePickerComponent,
@@ -31,6 +33,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         FadingCircleComponent
     ],
     exports: [
+        CoreAlertModalComponent,
         CoreCollapsiblePanelComponent,
         CoreConfirmationModalComponent,
         CoreDatePickerComponent,

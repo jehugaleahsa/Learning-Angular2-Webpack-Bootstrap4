@@ -1,0 +1,13 @@
+<template ngbModalContainer class="core-alert-modal" #alertModal>
+    <div class="modal-header">
+        {{title}}
+    </div>
+    <div class="modal-body">
+        <ng-content></ng-content>
+    </div>
+    <div class="modal-footer">
+        <div class="pull-right">
+            <button class="btn btn-secondary" (click)="close()">OK</button>
+        </div>
+    </div>
+</template>

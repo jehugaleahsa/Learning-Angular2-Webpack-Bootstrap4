@@ -1,4 +1,4 @@
-<template ngbModalContainer class="core-spinner-modal" #confirmationModal>
+<template ngbModalContainer class="core-confirmation-modal" #confirmationModal>
     <div class="modal-header">
         {{title}}
     </div>
@@ -7,8 +7,8 @@
     </div>
     <div class="modal-footer">
         <div class="pull-right">
-            <button (click)="confirm(true)">OK</button>
-            <button (click)="confirm(false)">Cancel</button>
+            <button class="btn btn-primary" (click)="confirm(true)">OK</button>
+            <button class="btn btn-secondary" (click)="confirm(false)">Cancel</button>
         </div>
     </div>
 </template>

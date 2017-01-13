@@ -2,38 +2,38 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
 
-import "./core-confirmation-modal.component.scss";
+import "./core-alert-modal.component.scss";
 
 @Component({
-    selector: "core-confirmation-modal",
-    template: require("./core-confirmation-modal.component.html")
+    selector: "core-alert-modal",
+    template: require("./core-alert-modal.component.html")
 })
-export class CoreConfirmationModalComponent {
+export class CoreAlertModalComponent {
     private modalReference: NgbModalRef = null;
-    @ViewChild("confirmationModal") private confirmationModal: any;
+    @ViewChild("alertModal") private alertModal: any;
 
     constructor(private modalService: NgbModal) {
     }
 
-    @Input() public title: string = "Confirm";
+    @Input() public title: string = "Alert";
 
-    private confirm(value: boolean): boolean {
-        this.modalReference.close(value);
+    private close(): boolean {
+        this.modalReference.close(true);
         return false;
     }
 
     public open(): Observable<boolean> {
         return Observable.create((observer: any) => {
-            this.modalReference = this.modalService.open(this.confirmationModal, {
+            this.modalReference = this.modalService.open(this.alertModal, {
                 backdrop: "static",
                 keyboard: true,
-                windowClass: "core-confirmation-modal"
+                windowClass: "core-alert-modal"
             });
             this.modalReference.result.then((value: boolean) => {
                 observer.next(value);
                 observer.complete();
             }).catch((reason: any) => {
-                observer.next(false);
+                observer.next(true);
                 observer.complete();
             });
         });
