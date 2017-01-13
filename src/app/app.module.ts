@@ -17,6 +17,7 @@ import { CollapsiblePanelDemoComponent } from "./collaspible-panel-demo/collapsi
 import { CoreUIModule } from "./core-ui/core-ui.module";
 import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.component";
 import { HomeComponent } from "./home/home.component";
+import { ModalDemoComponent } from "./modal-demo/modal-demo.component";
 import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
 import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
 
@@ -27,6 +28,7 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
     CollapsiblePanelDemoComponent,
     DatePickerDemoComponent,
     HomeComponent,
+    ModalDemoComponent,
     PanelDemoComponent,
     SpinnerDemoComponent
   ],

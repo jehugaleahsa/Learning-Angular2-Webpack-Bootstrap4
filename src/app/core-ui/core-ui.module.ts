@@ -7,6 +7,7 @@ import { FadingCircleComponent } from "ng-spin-kit";
 
 import { ControlStatus } from "./control-status";
 import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-collapsible-panel.component";
+import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-confirmation-modal.component";
 import { CoreDatePickerComponent } from "./core-date-picker/core-date-picker.component";
 import { CoreDatePickerParserFormatter } from "./core-date-picker/core-date-picker.parserformatter";
 import { CorePanelComponent } from "./core-panel/core-panel.component";
@@ -19,6 +20,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
 @NgModule({
     declarations: [
         CoreCollapsiblePanelComponent,
+        CoreConfirmationModalComponent,
         CoreDatePickerComponent,
         CorePanelComponent,
         CoreRoutingTabTitleDirective,
@@ -30,6 +32,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
     ],
     exports: [
         CoreCollapsiblePanelComponent,
+        CoreConfirmationModalComponent,
         CoreDatePickerComponent,
         CorePanelComponent,
         CoreRoutingTabTitleDirective,

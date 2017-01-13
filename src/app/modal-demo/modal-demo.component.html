@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col">
+        <button (click)="showConfirmation()">Show Confirmation Modal</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">Result: {{ confirmResult }}</div>
+</div>
+<core-confirmation-modal title="Confirm">
+    Click OK to confirm.
+</core-confirmation-modal>
