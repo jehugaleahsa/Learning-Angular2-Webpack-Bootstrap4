@@ -4,6 +4,7 @@ import { Directive, Input } from "@angular/core";
     selector: "core-data-grid-column"
 })
 export class CoreDataGridColumnDirective {
-    @Input() public name: string = null;
+    @Input() public headerName: string = null;
     @Input() public bind: string = null;
+    @Input() public isSortable: boolean = false;
 }

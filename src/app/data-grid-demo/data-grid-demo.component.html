@@ -1,6 +1,7 @@
 <core-data-grid (onInit)="getData($event)">
-    <core-data-grid-column name="First Name" bind="firstName"></core-data-grid-column>
-    <core-data-grid-column name="Last Name" bind="lastName"></core-data-grid-column>
-    <core-data-grid-column name="Email" bind="email"></core-data-grid-column>
-    <core-data-grid-column name="Phone" bind="phone"></core-data-grid-column>
+    <core-data-grid-column headerName="First Name" bind="firstName" isSortable="true"></core-data-grid-column>
+    <core-data-grid-column headerName="Last Name" bind="lastName" isSortable="true"></core-data-grid-column>
+    <core-data-grid-column headerName="Email" bind="email" isSortable="true"></core-data-grid-column>
+    <core-data-grid-column headerName="Phone" bind="phone" isSortable="true"></core-data-grid-column>
+    <core-data-grid-column headerName="Age" bind="age" isSortable="true"></core-data-grid-column>
 </core-data-grid>

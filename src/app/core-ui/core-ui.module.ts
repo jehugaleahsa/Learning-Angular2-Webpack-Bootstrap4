@@ -11,6 +11,7 @@ import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-col
 import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-confirmation-modal.component";
 import { CoreDataGridColumnDirective } from "./core-data-grid/core-data-grid-column.directive";
 import { CoreDataGridComponent } from "./core-data-grid/core-data-grid.component";
+import { OrderByPipe } from "./core-data-grid/order-by.pipe";
 import { CoreDatePickerComponent } from "./core-date-picker/core-date-picker.component";
 import { CoreDatePickerParserFormatter } from "./core-date-picker/core-date-picker.parserformatter";
 import { CorePanelComponent } from "./core-panel/core-panel.component";
@@ -34,7 +35,8 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreRoutingTabsetComponent,
         CoreSpinnerComponent,
         CoreSpinnerModalComponent,
-        FadingCircleComponent
+        FadingCircleComponent,
+        OrderByPipe
     ],
     exports: [
         CoreAlertModalComponent,

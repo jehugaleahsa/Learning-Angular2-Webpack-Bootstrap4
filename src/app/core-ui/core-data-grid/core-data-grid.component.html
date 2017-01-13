@@ -1,11 +1,16 @@
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
-            <th *ngFor="let column of columns">{{column.name}}</th>
+            <th *ngFor="let column of columns">
+                {{column.headerName}}
+                <div class="pull-right" *ngIf="column.isSortable">
+                    <a href (click)="sortBy(column)"><span class="fa" [ngClass]="getSortClass(column)"></span></a>
+                </div>
+            </th>
         </tr>
     </thead>
     <tbody>
-        <tr scope="row" *ngFor="let row of data">
+        <tr scope="row" *ngFor="let row of data | orderBy: sortField : isSortDescending">
             <td *ngFor="let column of columns">
                 {{ row[column.bind] }}
             </td>
