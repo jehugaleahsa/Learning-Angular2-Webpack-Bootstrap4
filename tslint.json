@@ -16,6 +16,7 @@
         ],
         "member-ordering": [
             false
-        ]
+        ],
+        "object-literal-shorthand": false
     }
 }

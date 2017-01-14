@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import {
     ActivatedRoute,
+    ActivatedRouteSnapshot,
     Event as RouterEvent,
     NavigationCancel,
     NavigationEnd,
@@ -16,7 +17,8 @@ import {
     NavigationStart,
     Router,
     RouterOutlet,
-    RouterOutletMap
+    RouterOutletMap,
+    UrlSegment
 } from "@angular/router";
 
 import { CoreRoutingTabDirective } from "./core-routing-tab.directive";
@@ -28,7 +30,7 @@ import "./core-routing-tabset.component.scss";
     template: require("./core-routing-tabset.component.html")
 })
 export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
-    private isLoading: boolean = false;
+    private initialRoute: any[] = null;
     @ViewChild(RouterOutlet) private outlet: RouterOutlet;
     @ContentChildren(CoreRoutingTabDirective) public tabs: QueryList<CoreRoutingTabDirective>;
 
@@ -36,26 +38,28 @@ export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
         private router: Router,
         private activeRoute: ActivatedRoute,
         private outletMap: RouterOutletMap) {
-        this.router.events.subscribe((event: RouterEvent) => {
-            if (event instanceof NavigationStart) {
-                this.isLoading = true;
-            } else if (event instanceof NavigationEnd) {
-                this.isLoading = false;
-            } else if (event instanceof NavigationCancel) {
-                this.isLoading = false;
-            } else if (event instanceof NavigationError) {
-                this.isLoading = false;
-            }
-        });
     }
 
     @Input() public outletName: string;
 
     public ngOnInit() {
         this.outletMap.registerOutlet(this.outletName, this.outlet);
+        const activeChildren = this.activeRoute.snapshot.children.filter((c) => c.outlet === this.outletName);
+        if (activeChildren.length !== 0) {
+            const activeChild = activeChildren[0];
+            if (activeChild.url.length !== 0) {
+                const path = activeChild.url[0].path;
+                this.initialRoute = this.decorateRoute([path]);
+            }
+        }
     }
 
     public ngAfterContentChecked(): void {
+        if (this.initialRoute !== null) {
+            this.navigateToRoute(this.initialRoute);
+            this.initialRoute = null;
+            return;
+        }
         const hasActive = this.tabs.filter((t) => t.isActive).length > 0;
         if (!hasActive) {
             const first = this.tabs.first;
@@ -72,7 +76,7 @@ export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
     private navigateToTab(tab: CoreRoutingTabDirective): void {
         tab.isActive = true;
         const route = this.decorateRoute(tab.route);
-        this.router.navigate(route, { relativeTo: this.activeRoute });
+        this.navigateToRoute(route);
     }
 
     private decorateRoute(route: any[] | string): any[] {
@@ -81,5 +85,9 @@ export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
                 outlets: { [this.outletName]: route }
             }
         ];
+    }
+
+    private navigateToRoute(route: any[]): void {
+        this.router.navigate(route, { relativeTo: this.activeRoute });
     }
 }

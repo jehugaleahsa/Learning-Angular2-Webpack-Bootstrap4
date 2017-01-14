@@ -1,16 +1,45 @@
-<table class="table table-bordered table-striped table-hover">
+<table class="table table-bordered table-striped table-hover core-data-grid">
     <thead>
         <tr>
             <th *ngFor="let column of columns">
                 {{column.headerName}}
-                <div class="pull-right" *ngIf="column.isSortable">
-                    <a href (click)="sortBy(column)"><span class="fa" [ngClass]="getSortClass(column)"></span></a>
+                <div class="pull-right">
+                    <a href
+                       class="data-grid-filter-icon"
+                       (click)="showFilterEditor(column, filterPopup)"
+                       *ngIf="column.filter"
+                       [ngbPopover]="filterContent"
+                       popoverTitle="Filter"
+                       placement="bottom"
+                       #filterPopup="ngbPopover"
+                       triggers="manual">
+                        <span class="fa fa-filter"></span>
+                        <template #filterContent>
+                            <div *ngIf="column.filter === 'contains'" >
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
+                                </div>
+                                <div class="pull-right form-group">
+                                    <button class="btn btn-primary"
+                                            (click)="applyFilter(column, filterPopup)">OK</button>
+                                    <button class="btn btn-secondary"
+                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
+                                </div>
+                            </div>
+                        </template>
+                    </a>
+                    <a href (click)="sortBy(column)" *ngIf="column.isSortable">
+                        <span class="fa"
+                              [class.fa-sort]="column.bind !== sortField"
+                              [class.fa-sort-asc]="column.bind === sortField && !isSortDescending"
+                              [class.fa-sort-desc]="column.bind === sortField && isSortDescending"></span>
+                    </a>
                 </div>
             </th>
         </tr>
     </thead>
     <tbody>
-        <tr scope="row" *ngFor="let row of data | orderBy: sortField : isSortDescending">
+        <tr scope="row" *ngFor="let row of filteredData | orderBy: sortField : isSortDescending">
             <td *ngFor="let column of columns">
                 {{ row[column.bind] }}
             </td>
