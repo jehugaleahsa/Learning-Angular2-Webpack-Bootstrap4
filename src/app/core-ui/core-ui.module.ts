@@ -12,6 +12,7 @@ import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-c
 import { CoreDataGridColumnDirective } from "./core-data-grid/core-data-grid-column.directive";
 import { CoreDataGridComponent } from "./core-data-grid/core-data-grid.component";
 import { OrderByPipe } from "./core-data-grid/order-by.pipe";
+import { PageByPipe } from "./core-data-grid/page-by.pipe";
 import { CoreDatePickerComponent } from "./core-date-picker/core-date-picker.component";
 import { CoreDatePickerParserFormatter } from "./core-date-picker/core-date-picker.parserformatter";
 import { CorePanelComponent } from "./core-panel/core-panel.component";
@@ -36,7 +37,8 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreSpinnerComponent,
         CoreSpinnerModalComponent,
         FadingCircleComponent,
-        OrderByPipe
+        OrderByPipe,
+        PageByPipe
     ],
     exports: [
         CoreAlertModalComponent,
@@ -58,7 +60,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
             provide: NgbDateParserFormatter,
             useFactory: () => new CoreDatePickerParserFormatter("MM/DD/YYYY")
         },
-        CurrencyPipe, DatePipe, DecimalPipe, PercentPipe
+        CurrencyPipe, DatePipe, DecimalPipe, OrderByPipe, PageByPipe, PercentPipe
     ]
 })
 export class CoreUIModule {

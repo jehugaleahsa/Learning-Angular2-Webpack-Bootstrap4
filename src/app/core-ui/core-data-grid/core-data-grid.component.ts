@@ -34,6 +34,9 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
     private columnFilterConfigs = new Map<string, IFilterConfig>();
     @ContentChildren(CoreDataGridColumnDirective) public columns: QueryList<CoreDataGridColumnDirective>;
     @Input() public data: any[];
+    public page = 1;
+    @Input() public pageSize: number = null;
+    @Input() public pageSizes = [10, 25, 50, 100];
     @Output() public onInit = new EventEmitter<CoreDataGridComponent>();
 
     constructor(
@@ -74,8 +77,8 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         return config.data;
     }
 
-    private showFilterEditor(column: CoreDataGridColumnDirective, popover: NgbPopover): boolean {
-        popover.open();
+    private showFilterEditor(popover: NgbPopover): boolean {
+        popover.toggle();
         return false;
     }
 

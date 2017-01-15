@@ -1,4 +1,4 @@
-<core-data-grid (onInit)="getData($event)">
+<core-data-grid (onInit)="getData($event)" [pageSize]="5" [pageSizes]="[5, 10, 25, 50]">
     <core-data-grid-column headerName="First Name"
                            bind="firstName"
                            isSortable="true"

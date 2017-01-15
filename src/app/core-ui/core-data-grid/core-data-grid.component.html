@@ -6,7 +6,7 @@
                 <div class="pull-right">
                     <a href
                        class="data-grid-filter-icon"
-                       (click)="showFilterEditor(column, filterPopup)"
+                       (click)="showFilterEditor(filterPopup)"
                        *ngIf="column.filter"
                        [ngbPopover]="filterContent"
                        popoverTitle="Filter"
@@ -113,10 +113,35 @@
         </tr>
     </thead>
     <tbody>
-        <tr scope="row" *ngFor="let row of filteredData | orderBy: sortField : isSortDescending">
+        <tr scope="row" *ngFor="let row of filteredData | orderBy: sortField : isSortDescending | pageBy: pageSize : page">
             <td *ngFor="let column of columns">
                 {{ getValue(row, column) }}
             </td>
         </tr>
     </tbody>
 </table>
+<div class="row">
+    <div class="col">
+        <ngb-pagination *ngIf="data && pageSize !== null"
+                        [ellipses]="true"
+                        [maxSize]="10"
+                        [boundaryLinks]="true"
+                        [directionLinks]="true"
+                        [collectionSize]="data.length"
+                        [(page)]="page"
+                        [pageSize]="pageSize"></ngb-pagination>
+    </div>
+    <div class="col-2">
+        Page Size:
+        <select [(ngModel)]="pageSize">
+            <option *ngFor="let pageSizeOption of pageSizes" [ngValue]="pageSizeOption">
+                {{pageSizeOption}}
+            </option>
+        </select>
+    </div>
+    <div class="col">
+        <div class="pull-right">
+            Total: <span class="badge badge-pill badge-default">{{data.length}}</span>
+        </div>
+    </div>
+</div>
