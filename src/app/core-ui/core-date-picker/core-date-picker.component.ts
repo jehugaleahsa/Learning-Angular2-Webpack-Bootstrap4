@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -16,6 +16,13 @@ export class CoreDatePickerComponent {
 
     public set date(value: Date) {
         this._date = CoreDatePickerComponent.toDateStruct(value);
+    }
+
+    @Output() public dateChange = new EventEmitter<Date>();
+
+    private updateDate(value: NgbDateStruct) {
+        this._date = value;
+        this.dateChange.next(this.date);
     }
 
     @Input() public get minDate(): Date {

@@ -5,7 +5,8 @@
                    placeholder="mm/dd/yyyy"
                    name="dp"
                    type="text"
-                   [(ngModel)]="_date"
+                   [ngModel]="_date"
+                   (ngModelChange)="updateDate($event)"
                    ngbDatepicker
                    #d="ngbDatepicker"
                    [minDate]="_minDate"
