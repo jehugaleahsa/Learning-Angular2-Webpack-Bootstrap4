@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
@@ -57,7 +57,8 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         {
             provide: NgbDateParserFormatter,
             useFactory: () => new CoreDatePickerParserFormatter("MM/DD/YYYY")
-        }
+        },
+        CurrencyPipe, DatePipe, DecimalPipe, PercentPipe
     ]
 })
 export class CoreUIModule {

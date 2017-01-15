@@ -1,5 +1,6 @@
 import {
     APP_BASE_HREF,
+    CommonModule,
     HashLocationStrategy,
     LocationStrategy,
     PathLocationStrategy
@@ -36,6 +37,7 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     NgbModule.forRoot(),
     CoreUIModule,
     FormsModule,

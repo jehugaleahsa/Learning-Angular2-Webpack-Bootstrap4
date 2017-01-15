@@ -10,8 +10,24 @@ import "./data-grid-demo.component.scss";
 export class DataGridDemoComponent {
     public getData(grid: CoreDataGridComponent): void {
         grid.data = [
-            { firstName: "John", lastName: "Smith", email: "jsmith@x.com", phone: "(555) 555-5555", age: 43 },
-            { firstName: "Jane", lastName: "Doe", email: "jdoe@x.com", phone: "(555) 555-5555", age: 28 }
+            {
+                createdOn: new Date(2017, 0, 12),
+                email: "jsmith@x.com",
+                firstName: "John",
+                isActive: true,
+                lastName: "Smith",
+                phone: "(555) 555-5555",
+                rate: 43.01
+            },
+            {
+                createdOn: new Date(2016, 11, 13),
+                email: "jdoe@x.com",
+                firstName: "Jane",
+                isActive: false,
+                lastName: "Doe",
+                phone: "(555) 444-4444",
+                rate: 28.16
+            }
         ];
     }
 }

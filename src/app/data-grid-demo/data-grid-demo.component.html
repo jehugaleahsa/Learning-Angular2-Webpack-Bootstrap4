@@ -3,8 +3,30 @@
                            bind="firstName"
                            isSortable="true"
                            filter="contains"></core-data-grid-column>
-    <core-data-grid-column headerName="Last Name" bind="lastName" isSortable="true"></core-data-grid-column>
-    <core-data-grid-column headerName="Email" bind="email" isSortable="true"></core-data-grid-column>
-    <core-data-grid-column headerName="Phone" bind="phone" isSortable="true"></core-data-grid-column>
-    <core-data-grid-column headerName="Age" bind="age" isSortable="true"></core-data-grid-column>
+    <core-data-grid-column headerName="Last Name"
+                           bind="lastName"
+                           isSortable="true"
+                           filter="contains"></core-data-grid-column>
+    <core-data-grid-column headerName="Email"
+                           bind="email"
+                           isSortable="true"
+                           filter="startsWith"></core-data-grid-column>
+    <core-data-grid-column headerName="Phone"
+                           bind="phone"
+                           isSortable="true"
+                           filter="contains"></core-data-grid-column>
+    <core-data-grid-column headerName="Rate"
+                           bind="rate"
+                           isSortable="true"
+                           filter="numberRange"
+                           currencyFormat="USD"></core-data-grid-column>
+    <core-data-grid-column headerName="Created On"
+                           bind="createdOn"
+                           isSortable="true"
+                           filter="dateRange"
+                           dateFormat="MM/dd/yyyy"></core-data-grid-column>
+    <core-data-grid-column headerName="Active?"
+                           bind="isActive"
+                           isSortable="true"
+                           filter="boolean"></core-data-grid-column>
 </core-data-grid>

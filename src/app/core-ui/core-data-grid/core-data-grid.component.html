@@ -17,11 +17,85 @@
                         <template #filterContent>
                             <div *ngIf="column.filter === 'contains'" >
                                 <div class="form-group">
-                                    <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
+                                    Contains: <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
                                 </div>
-                                <div class="pull-right form-group">
+                                <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">OK</button>
+                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                    <button class="btn btn-danger"
+                                            (click)="getModel(column).value = ''; applyFilter(column, filterPopup)">Clear</button>
+                                    <button class="btn btn-secondary"
+                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
+                                </div>
+                            </div>
+                            <div *ngIf="column.filter === 'startsWith'" >
+                                <div class="form-group">
+                                    Starts With: <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
+                                </div>
+                                <div class="pull-right btn-group" role="group">
+                                    <button class="btn btn-primary"
+                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                    <button class="btn btn-danger"
+                                            (click)="getModel(column).value = ''; applyFilter(column, filterPopup)">Clear</button>
+                                    <button class="btn btn-secondary"
+                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
+                                </div>
+                            </div>
+                            <div *ngIf="column.filter === 'endsWith'" >
+                                <div class="form-group">
+                                    Ends With: <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
+                                </div>
+                                <div class="pull-right btn-group" role="group">
+                                    <button class="btn btn-primary"
+                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                    <button class="btn btn-danger"
+                                            (click)="getModel(column).value = ''; applyFilter(column, filterPopup)">Clear</button>
+                                    <button class="btn btn-secondary"
+                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
+                                </div>
+                            </div>
+                            <div *ngIf="column.filter === 'numberRange'" >
+                                <div class="form-group">
+                                    Start: <input type="number" step="any" class="form-control" [(ngModel)]="getModel(column).start" />
+                                    End: <input type="number" step="any" class="form-control" [(ngModel)]="getModel(column).end" />
+                                </div>
+                                <div class="pull-right btn-group" role="group">
+                                    <button class="btn btn-primary"
+                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                    <button class="btn btn-danger"
+                                            (click)="getModel(column).start = null; getModel(column).end = null; applyFilter(column, filterPopup)">Clear</button>
+                                    <button class="btn btn-secondary"
+                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
+                                </div>
+                            </div>
+                            <div *ngIf="column.filter === 'dateRange'" >
+                                <div class="form-group">
+                                    Start: <core-date-picker [(date)]="getModel(column).start"></core-date-picker>
+                                    End: <core-date-picker [(date)]="getModel(column).end"></core-date-picker>
+                                </div>
+                                <div class="pull-right btn-group" role="group">
+                                    <button class="btn btn-primary"
+                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                    <button class="btn btn-danger"
+                                            (click)="getModel(column).start = null; getModel(column).end = null; applyFilter(column, filterPopup)">Clear</button>
+                                    <button class="btn btn-secondary"
+                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
+                                </div>
+                            </div>
+                            <div *ngIf="column.filter === 'boolean'" >
+                                <div class="form-group">
+                                    Value:
+                                    <select class="form-control" [(ngModel)]="getModel(column).value">
+                                        <option [ngValue]="null">None</option>
+                                        <option [ngValue]="true">True</option>
+                                        <option [ngValue]="false">False</option>
+                                    </select>
+                                </div>
+                                <div class="pull-right btn-group" role="group">
+                                    <button class="btn btn-primary"
+                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                    <button class="btn btn-danger"
+                                            (click)="getModel(column).value = null; applyFilter(column, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
@@ -41,7 +115,7 @@
     <tbody>
         <tr scope="row" *ngFor="let row of filteredData | orderBy: sortField : isSortDescending">
             <td *ngFor="let column of columns">
-                {{ row[column.bind] }}
+                {{ getValue(row, column) }}
             </td>
         </tr>
     </tbody>

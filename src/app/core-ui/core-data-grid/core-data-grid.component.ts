@@ -1,3 +1,4 @@
+import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from "@angular/common";
 import {
     AfterContentInit,
     Component,
@@ -34,6 +35,13 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
     @ContentChildren(CoreDataGridColumnDirective) public columns: QueryList<CoreDataGridColumnDirective>;
     @Input() public data: any[];
     @Output() public onInit = new EventEmitter<CoreDataGridComponent>();
+
+    constructor(
+        private currencyPipe: CurrencyPipe,
+        private datePipe: DatePipe,
+        private decimalPipe: DecimalPipe,
+        private percentPipe: PercentPipe) {
+    }
 
     public ngOnInit(): void {
         this.onInit.next(this);
@@ -138,11 +146,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item) {
+            if (!item || !(column.bind in item)) {
                 return false;
             }
             const bound = item[column.bind];
-            if (!bound) {
+            if (bound === null) {
                 return false;
             }
             const valueString = value.toString().toUpperCase();
@@ -156,11 +164,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item) {
+            if (!item || !(column.bind in item)) {
                 return false;
             }
             const bound = item[column.bind];
-            if (!bound) {
+            if (bound === null) {
                 return false;
             }
             const valueString = value.toString().toUpperCase();
@@ -174,11 +182,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item) {
+            if (!item || !(column.bind in item)) {
                 return false;
             }
             const bound = item[column.bind];
-            if (!bound) {
+            if (bound === null) {
                 return false;
             }
             const valueString = value.toString().toUpperCase();
@@ -195,11 +203,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (start === null && end === null) {
                 return true;
             }
-            if (!item) {
+            if (!item || !(column.bind in item)) {
                 return false;
             }
             const bound = item[column.bind];
-            if (!bound || !(bound as number)) {
+            if (bound === null || typeof bound !== "number") {
                 return false;
             }
             if (start === null) {
@@ -220,11 +228,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (start === null && end === null) {
                 return true;
             }
-            if (!item) {
+            if (!item || !(column.bind in item)) {
                 return false;
             }
             const bound = item[column.bind];
-            if (!bound || !(bound as Date)) {
+            if (bound === null || !(bound instanceof Date)) {
                 return false;
             }
             if (start === null) {
@@ -242,11 +250,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item) {
+            if (!item || !(column.bind in item)) {
                 return false;
             }
             const bound = item[column.bind];
-            if (!bound || !(bound as boolean)) {
+            if (typeof bound !== "boolean") {
                 return false;
             }
             return value === bound;
@@ -259,5 +267,21 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
 
     private get filteredData(): any[] {
         return this.data.filter(this.filter);
+    }
+
+    private getValue(row: any, column: CoreDataGridColumnDirective): any {
+        const value = row[column.bind];
+        if (value as Date && !!column.dateFormat) {
+            return this.datePipe.transform(value, column.dateFormat);
+        } else if (value as number) {
+            if (!!column.currencyFormat) {
+                return this.currencyPipe.transform(value, column.currencyFormat, true, "1.2-2");
+            } else if (!!column.percentFormat) {
+                return this.percentPipe.transform(value, column.percentFormat);
+            } else if (!!column.decimalFormat) {
+                return this.decimalPipe.transform(value, column.decimalFormat);
+            }
+        }
+        return value;
     }
 }
