@@ -30,7 +30,7 @@ import "./core-routing-tabset.component.scss";
     template: require("./core-routing-tabset.component.html")
 })
 export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
-    private initialRoute: any[] = null;
+    private _initialPath: string = null;
     @ViewChild(RouterOutlet) private outlet: RouterOutlet;
     @ContentChildren(CoreRoutingTabDirective) public tabs: QueryList<CoreRoutingTabDirective>;
 
@@ -44,26 +44,42 @@ export class CoreRoutingTabsetComponent implements AfterContentChecked, OnInit {
 
     public ngOnInit() {
         this.outletMap.registerOutlet(this.outletName, this.outlet);
-        const activeChildren = this.activeRoute.snapshot.children.filter((c) => c.outlet === this.outletName);
-        if (activeChildren.length !== 0) {
-            const activeChild = activeChildren[0];
-            if (activeChild.url.length !== 0) {
-                const path = activeChild.url[0].path;
-                this.initialRoute = this.decorateRoute([path]);
-            }
+        this._initialPath = this.getInitialPath();
+    }
+
+    private getInitialPath(): string {
+        if (!this.activeRoute.snapshot.children) {
+            return null;
         }
+        const activeChildren = this.activeRoute.snapshot.children.filter((c) => c.outlet === this.outletName);
+        if (activeChildren.length === 0) {
+            return null;
+        }
+        const activeChild = activeChildren[0];
+        if (activeChild.url.length === 0) {
+            return null;
+        }
+        const path = activeChild.url[0].path;
+        return path;
     }
 
     public ngAfterContentChecked(): void {
-        if (this.initialRoute !== null) {
-            this.navigateToRoute(this.initialRoute);
-            this.initialRoute = null;
-            return;
+        if (this._initialPath !== null) {
+            this.tabs
+                .filter((tab) => CoreRoutingTabsetComponent.isRouteMatch(tab, this._initialPath))
+                .forEach((tab) => tab.isActive = true);
+            this._initialPath = null;
+        } else if (this.tabs.length !== 0 && this.tabs.filter((tab) => tab.isActive).length === 0) {
+            const firstTab = this.tabs.first;
+            this.navigateToTab(firstTab);
         }
-        const hasActive = this.tabs.filter((t) => t.isActive).length > 0;
-        if (!hasActive) {
-            const first = this.tabs.first;
-            this.navigateToTab(first);
+    }
+
+    private static isRouteMatch(tab: CoreRoutingTabDirective, value: string): boolean {
+        if (typeof tab.route === "string") {
+            return tab.route === value;
+        } else {
+            return tab.route[0] === value;
         }
     }
 
