@@ -4,12 +4,13 @@ import { Pipe, PipeTransform } from "@angular/core";
     name: "pageBy"
 })
 export class PageByPipe implements PipeTransform {
-    public transform(values: any[], pageSize: number, page: number): any[] {
-        if (pageSize === null) {
+    public transform(values: any[], pageSize: number, page: number, isServerSide: boolean = false): any[] {
+        if (pageSize === null || isServerSide === true) {
             return values;
         }
-        const skipCount = pageSize * (page - 1);
-        const pageItems = values.slice(skipCount, skipCount + pageSize);
+        const startIndex = pageSize * (page - 1);
+        const endIndex = Math.min(startIndex + pageSize, values.length);
+        const pageItems = values.slice(startIndex, endIndex);
         return pageItems;
     }
 }

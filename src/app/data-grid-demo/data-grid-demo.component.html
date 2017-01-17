@@ -1,4 +1,4 @@
-<core-data-grid (onInit)="getData($event)" [pageSize]="5" [pageSizes]="[5, 10, 25, 50]">
+<core-data-grid (onInit)="getClientSideData($event)" [pageSize]="5" [pageSizes]="[5, 10, 25, 50]">
     <core-data-grid-column headerName="First Name"
                            bind="firstName"
                            [isSortable]="true"
@@ -35,3 +35,17 @@
         <button class="btn btn-warning" (click)="reset()">Reset</button>
     </div>
 </div>
+<core-collapsible-panel title="Server-side Paging">
+    <core-data-grid [isServerSide]="true"
+                    [pageSize]="5"
+                    [pageSizes]="[5, 10, 25, 50]"
+                    (dataRequested)="getServerData($event)">
+        <core-data-grid-column headerName="First Name" bind="firstName"></core-data-grid-column>
+        <core-data-grid-column headerName="Last Name" bind="lastName"></core-data-grid-column>
+        <core-data-grid-column headerName="Email" bind="email"></core-data-grid-column>
+        <core-data-grid-column headerName="Phone" bind="phone"></core-data-grid-column>
+        <core-data-grid-column headerName="Rate" bind="rate" currencyFormat="USD"></core-data-grid-column>
+        <core-data-grid-column headerName="Created On" bind="createdOn" dateFormat="MM/dd/yyyy"></core-data-grid-column>
+        <core-data-grid-column headerName="Active?" bind="isActive"></core-data-grid-column>
+    </core-data-grid>
+</core-collapsible-panel>

@@ -24,21 +24,40 @@ interface IFilterConfig {
     filter: FilterFunc;
 }
 
+export interface IDataGridFilterConfig {
+    headerName: string;
+    fieldName: string;
+    filterType: string;
+    data: any;
+}
+
+export interface IDataGridParameters {
+    grid: CoreDataGridComponent;
+    sortField: string;
+    isSortDescending: boolean;
+    page: number;
+    pageSize: number;
+    filters: IDataGridFilterConfig[]
+}
+
 @Component({
     selector: "core-data-grid",
     template: require("./core-data-grid.component.html")
 })
 export class CoreDataGridComponent implements AfterContentInit, OnInit {
+    private data: any[] = null;
+    private filteredData: any[] = [];
+    private totalLength: number = 0;
+    private columnFilterConfigs = new Map<string, IFilterConfig>();
+    @Input() public isServerSide: boolean = false;
     @Input() public sortField: string = null;
     @Input() public isSortDescending: boolean = false;
-    private columnFilterConfigs = new Map<string, IFilterConfig>();
     @ContentChildren(CoreDataGridColumnDirective) public columns: QueryList<CoreDataGridColumnDirective>;
-    @Input() public data: any[];
-    private filteredData: any[];
     public page = 1;
     @Input() public pageSize: number = null;
     @Input() public pageSizes = [10, 25, 50, 100];
     @Output() public onInit = new EventEmitter<CoreDataGridComponent>();
+    @Output() public dataRequested = new EventEmitter<IDataGridParameters>();
 
     constructor(
         private currencyPipe: CurrencyPipe,
@@ -61,7 +80,17 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
                 isFiltered: false
             });
         });
-        this.filteredData = this.getFilteredData();
+        this.refresh();
+    }
+
+    public setData(data: any[], totalLength?: number): void {
+        this.data = data;
+        this.totalLength = (!this.isServerSide || typeof totalLength === "undefined")
+            ? (data === null)
+                ? 0
+                : data.length
+            : Math.max(totalLength, 0);
+        this.applyChanges();
     }
 
     private sortBy(column: CoreDataGridColumnDirective): boolean {
@@ -74,7 +103,7 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             this.sortField = column.bind;
             this.isSortDescending = false;
         }
-        this.filteredData = this.getFilteredData();
+        this.refresh();
         return false;
     }
 
@@ -102,7 +131,7 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             config.data = CoreDataGridComponent.getDefaultData(column);
             config.filter = CoreDataGridComponent.getDefaultFilter();
         }
-        this.filteredData = this.getFilteredData();
+        this.refresh();
         popover.close();
         return false;
     }
@@ -274,25 +303,6 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         return (value: any, index: number, values: any[]): boolean => true;
     }
 
-    private getFilteredData(): any[] {
-        if (this.data === null) {
-            return [];
-        }
-        const filter = this.getFilter();
-        return this.data.filter(filter);
-    }
-
-    private getFilter(): FilterFunc {
-        const filters: FilterFunc[] = [];
-        this.columnFilterConfigs.forEach((config, headerName) => {
-            filters.push(config.filter);
-        });
-        const filter = (value: any, index: number, array: any[]): boolean => {
-            return filters.every((f) => f(value, index, array));
-        };
-        return filter;
-    }
-
     private getValue(row: any, column: CoreDataGridColumnDirective): any {
         const value = row[column.bind];
         if (value instanceof Date && !!column.dateFormat) {
@@ -309,6 +319,24 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         return value;
     }
 
+    private changePage(page: number): void {
+        this.page = page;
+        if (this.isServerSide) {
+            this.refresh();
+        }
+    }
+
+    private changePageSize(pageSize: number): void {
+        this.pageSize = pageSize;
+        const maxPages = Math.trunc(this.totalLength / this.pageSize) + 1;
+        if (this.page > maxPages) {
+            this.page = maxPages;
+        }
+        if (this.isServerSide) {
+            this.refresh();
+        }
+    }
+
     public reset(): void {
         this.sortField = null;
         this.isSortDescending = false;
@@ -319,6 +347,56 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             config.data = CoreDataGridComponent.getDefaultData(column);
             config.filter = CoreDataGridComponent.getDefaultFilter();
         });
-        this.filteredData = this.getFilteredData();
+        this.refresh();
+    }
+
+    private refresh(): void {
+        if (this.isServerSide) {
+            const filterConfigs: IDataGridFilterConfig[] = [];
+            this.columnFilterConfigs.forEach((config) => {
+                const filterConfig: IDataGridFilterConfig = {
+                    data: config.data,
+                    fieldName: config.column.bind,
+                    filterType: config.column.filter,
+                    headerName: config.column.headerName
+                };
+                filterConfigs.push(filterConfig);
+            });
+            const parameters: IDataGridParameters = {
+                filters: filterConfigs,
+                grid: this,
+                isSortDescending: this.isSortDescending,
+                page: this.page,
+                pageSize: this.pageSize,
+                sortField: this.sortField
+            };
+            this.dataRequested.next(parameters);
+        } else {
+            this.applyChanges();
+        }
+    }
+
+    private applyChanges(): void {
+        if (this.data === null) {
+            this.filteredData = [];
+            return;
+        }
+        if (this.isServerSide) {
+            this.filteredData = this.data;
+        } else {
+            const filter = this.getFilter();
+            this.filteredData = this.data.filter(filter);
+        }
+    }
+
+    private getFilter(): FilterFunc {
+        const filters: FilterFunc[] = [];
+        this.columnFilterConfigs.forEach((config, headerName) => {
+            filters.push(config.filter);
+        });
+        const filter = (value: any, index: number, array: any[]): boolean => {
+            return filters.every((f) => f(value, index, array));
+        };
+        return filter;
     }
 }

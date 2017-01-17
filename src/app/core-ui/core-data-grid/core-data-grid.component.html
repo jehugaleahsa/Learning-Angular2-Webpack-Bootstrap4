@@ -67,28 +67,35 @@
         </tr>
     </thead>
     <tbody>
-        <tr scope="row" *ngFor="let row of filteredData | orderBy: sortField : isSortDescending | pageBy: pageSize : page">
+        <tr scope="row"
+            *ngFor="let row of filteredData | orderBy: sortField : isSortDescending | pageBy: pageSize : page : isServerSide">
             <td *ngFor="let column of columns">
                 {{ getValue(row, column) }}
+            </td>
+        </tr>
+        <tr *ngIf="filteredData.length === 0">
+            <td [attr.colspan]="columns.length">
+                <em class="no-data-message">There is no data to display.</em>
             </td>
         </tr>
     </tbody>
 </table>
 <div class="row">
     <div class="col">
-        <ngb-pagination *ngIf="data && pageSize !== null && data.length > pageSize"
+        <ngb-pagination *ngIf="data && pageSize !== null && totalLength > pageSize"
                         [ellipses]="true"
                         [maxSize]="10"
                         [boundaryLinks]="true"
                         [directionLinks]="true"
-                        [collectionSize]="filteredData.length"
-                        [(page)]="page"
-                        [pageSize]="pageSize"></ngb-pagination>
+                        [collectionSize]="totalLength"
+                        [page]="page"
+                        [pageSize]="pageSize"
+                        (pageChange)="changePage($event)"></ngb-pagination>
     </div>
     <div class="col-2">
         <div class="form-inline">
             <label class="mr-2">Page Size:</label>
-            <select [(ngModel)]="pageSize" class="form-control">
+            <select class="form-control" [ngModel]="pageSize" (ngModelChange)="changePageSize($event)">
                 <option *ngFor="let pageSizeOption of pageSizes" [ngValue]="pageSizeOption">
                     {{pageSizeOption}}
                 </option>
@@ -97,7 +104,7 @@
     </div>
     <div class="col">
         <div class="pull-right">
-            Total: <span class="badge badge-pill badge-default">{{filteredData.length}}</span>
+            Total: <span class="badge badge-pill badge-default">{{totalLength}}</span>
         </div>
     </div>
 </div>

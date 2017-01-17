@@ -5,7 +5,6 @@ import { RouterModule } from "@angular/router";
 import { NgbDateParserFormatter, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FadingCircleComponent } from "ng-spin-kit";
 
-import { ControlStatus } from "./control-status";
 import { CoreAlertModalComponent } from "./core-alert-modal/core-alert-modal.component";
 import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-collapsible-panel.component";
 import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-confirmation-modal.component";
