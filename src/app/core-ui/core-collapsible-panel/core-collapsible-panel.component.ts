@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { NgbAccordion, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 
-import { ControlStatus } from "../control-status";
 import { CoreCollapsiblePanelChangedEvent } from "./core-collaspsible-panel-changed-event";
 
 import "./core-collapsible-panel.component.scss";
@@ -13,7 +12,7 @@ import "./core-collapsible-panel.component.scss";
 export class CoreCollapsiblePanelComponent {
     private static _panelId: string = "main-panel";
     private _isOpen: boolean = false;
-    private _status: ControlStatus = ControlStatus.None;
+    private _status: string = null;
     private _outlineClass: string = "";
     private _headerClass: string = "";
 
@@ -39,26 +38,19 @@ export class CoreCollapsiblePanelComponent {
         return false;
     }
 
-    @Input() public get status(): ControlStatus {
+    @Input() public get status(): string {
         return this._status;
     }
 
-    public set status(value: ControlStatus) {
-        if (typeof ControlStatus[value] === "undefined") {
-            this._status = ControlStatus.None;
-        } else {
-            this._status = value;
-        }
-        if (this._status === ControlStatus.Success) {
-            this._outlineClass = "card-outline-success";
-            this._headerClass = "card-success card-inverse";
-        } else if (this._status === ControlStatus.Error) {
-            this._outlineClass = "card-outline-danger";
-            this._headerClass = "card-danger card-inverse";
-        } else {
+    public set status(value: string) {
+        this._status = value;
+        if (this._status === null) {
             this._outlineClass = "";
             this._headerClass = "";
+            return;
         }
+        this._outlineClass = `card-outline-${this._status}`;
+        this._headerClass = `card-${this._status} card-inverse`;
     }
 
     @Output() private isOpenChanged = new EventEmitter<CoreCollapsiblePanelChangedEvent>();

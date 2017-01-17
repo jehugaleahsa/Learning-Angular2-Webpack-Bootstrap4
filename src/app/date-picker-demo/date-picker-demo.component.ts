@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
 import * as moment from "moment";
 
-import { ControlStatus } from "../core-ui/control-status";
-
 import "./date-picker-demo.component.scss";
 
 @Component({

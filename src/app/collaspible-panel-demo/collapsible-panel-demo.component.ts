@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 
-import { ControlStatus } from "../core-ui/control-status";
 import {
     CoreCollapsiblePanelChangedEvent
 } from "../core-ui/core-collapsible-panel/core-collaspsible-panel-changed-event";
@@ -12,7 +11,7 @@ import "./collapsible-panel-demo.component.scss";
 })
 export class CollapsiblePanelDemoComponent {
     private _isPanelOpen: boolean;
-    private _collapsiblePanelStatus: ControlStatus = ControlStatus.None;
+    private _collapsiblePanelStatus: string = null;
 
     private get collapsibleMessage() {
         if (this._isPanelOpen) {
@@ -27,14 +26,14 @@ export class CollapsiblePanelDemoComponent {
     }
 
     private setCollapsiblePanelNormal(): void {
-        this._collapsiblePanelStatus = ControlStatus.None;
+        this._collapsiblePanelStatus = null;
     }
 
     private setCollapsiblePanelSuccess(): void {
-        this._collapsiblePanelStatus = ControlStatus.Success;
+        this._collapsiblePanelStatus = "success";
     }
 
     private setCollapsiblePanelError(): void {
-        this._collapsiblePanelStatus = ControlStatus.Error;
+        this._collapsiblePanelStatus = "danger";
     }
 }
