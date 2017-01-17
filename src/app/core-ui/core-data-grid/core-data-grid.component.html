@@ -13,7 +13,7 @@
                        placement="bottom"
                        #filterPopup="ngbPopover"
                        triggers="manual">
-                        <span class="fa fa-filter"></span>
+                        <span class="fa fa-filter" [class.filtered]="isFiltered(column)"></span>
                         <template #filterContent>
                             <div *ngIf="column.filter === 'contains'" >
                                 <div class="form-group">
@@ -21,9 +21,9 @@
                                 </div>
                                 <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
                                     <button class="btn btn-danger"
-                                            (click)="getModel(column).value = ''; applyFilter(column, filterPopup)">Clear</button>
+                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
@@ -34,9 +34,9 @@
                                 </div>
                                 <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
                                     <button class="btn btn-danger"
-                                            (click)="getModel(column).value = ''; applyFilter(column, filterPopup)">Clear</button>
+                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
@@ -47,9 +47,9 @@
                                 </div>
                                 <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
                                     <button class="btn btn-danger"
-                                            (click)="getModel(column).value = ''; applyFilter(column, filterPopup)">Clear</button>
+                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
@@ -61,9 +61,9 @@
                                 </div>
                                 <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
                                     <button class="btn btn-danger"
-                                            (click)="getModel(column).start = null; getModel(column).end = null; applyFilter(column, filterPopup)">Clear</button>
+                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
@@ -75,9 +75,9 @@
                                 </div>
                                 <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
                                     <button class="btn btn-danger"
-                                            (click)="getModel(column).start = null; getModel(column).end = null; applyFilter(column, filterPopup)">Clear</button>
+                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
@@ -93,16 +93,16 @@
                                 </div>
                                 <div class="pull-right btn-group" role="group">
                                     <button class="btn btn-primary"
-                                            (click)="applyFilter(column, filterPopup)">Apply</button>
+                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
                                     <button class="btn btn-danger"
-                                            (click)="getModel(column).value = null; applyFilter(column, filterPopup)">Clear</button>
+                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
                                     <button class="btn btn-secondary"
                                             (click)="closeFilterEditor(filterPopup)">Cancel</button>
                                 </div>
                             </div>
                         </template>
                     </a>
-                    <a href (click)="sortBy(column)" *ngIf="column.isSortable">
+                    <a href class="data-grid-sort-icon" (click)="sortBy(column)" *ngIf="column.isSortable">
                         <span class="fa"
                               [class.fa-sort]="column.bind !== sortField"
                               [class.fa-sort-asc]="column.bind === sortField && !isSortDescending"
@@ -127,7 +127,7 @@
                         [maxSize]="10"
                         [boundaryLinks]="true"
                         [directionLinks]="true"
-                        [collectionSize]="data.length"
+                        [collectionSize]="filteredData.length"
                         [(page)]="page"
                         [pageSize]="pageSize"></ngb-pagination>
     </div>
@@ -141,7 +141,7 @@
     </div>
     <div class="col">
         <div class="pull-right">
-            Total: <span class="badge badge-pill badge-default">{{data.length}}</span>
+            Total: <span class="badge badge-pill badge-default">{{filteredData.length}}</span>
         </div>
     </div>
 </div>

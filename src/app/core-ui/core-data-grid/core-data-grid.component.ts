@@ -20,6 +20,7 @@ type FilterFunc = (value: any, index: number, array: any[]) => boolean;
 interface IFilterConfig {
     column: CoreDataGridColumnDirective;
     data: any;
+    isFiltered: boolean;
     filter: FilterFunc;
 }
 
@@ -30,10 +31,10 @@ interface IFilterConfig {
 export class CoreDataGridComponent implements AfterContentInit, OnInit {
     private sortField: string = null;
     private isSortDescending: boolean = false;
-    private filter: FilterFunc = CoreDataGridComponent.getDefaultFilter();
     private columnFilterConfigs = new Map<string, IFilterConfig>();
     @ContentChildren(CoreDataGridColumnDirective) public columns: QueryList<CoreDataGridColumnDirective>;
     @Input() public data: any[];
+    private filteredData: any[];
     public page = 1;
     @Input() public pageSize: number = null;
     @Input() public pageSizes = [10, 25, 50, 100];
@@ -56,10 +57,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             this.columnFilterConfigs.set(column.headerName, {
                 column: column,
                 data: data,
-                filter: CoreDataGridComponent.getColumnFilter(column, null)
+                filter: CoreDataGridComponent.getColumnFilter(column, null),
+                isFiltered: false
             });
         });
-        this.filter = this.getFilter();
+        this.filteredData = this.getFilteredData();
     }
 
     private sortBy(column: CoreDataGridColumnDirective): boolean {
@@ -69,6 +71,7 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             this.sortField = column.bind;
             this.isSortDescending = false;
         }
+        this.filteredData = this.getFilteredData();
         return false;
     }
 
@@ -87,23 +90,23 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         return false;
     }
 
-    private applyFilter(column: CoreDataGridColumnDirective, popover: NgbPopover): boolean {
+    private applyFilter(column: CoreDataGridColumnDirective, isFiltered: boolean, popover: NgbPopover): boolean {
         const config = this.columnFilterConfigs.get(column.headerName);
-        config.filter = CoreDataGridComponent.getColumnFilter(column, config.data);
-        this.filter = this.getFilter();
+        config.isFiltered = isFiltered;
+        if (isFiltered) {
+            config.filter = CoreDataGridComponent.getColumnFilter(column, config.data);
+        } else {
+            config.data = CoreDataGridComponent.getDefaultData(column);
+            config.filter = CoreDataGridComponent.getDefaultFilter();
+        }
+        this.filteredData = this.getFilteredData();
         popover.close();
         return false;
     }
 
-    private getFilter(): FilterFunc {
-        const filters: FilterFunc[] = [];
-        this.columnFilterConfigs.forEach((config, headerName) => {
-            filters.push(config.filter);
-        });
-        const filter = (value: any, index: number, array: any[]): boolean => {
-            return filters.every((f) => f(value, index, array));
-        };
-        return filter;
+    private isFiltered(column: CoreDataGridColumnDirective): boolean {
+        const config = this.columnFilterConfigs.get(column.headerName);
+        return config.isFiltered;
     }
 
     private static getDefaultData(column: CoreDataGridColumnDirective): any {
@@ -268,8 +271,23 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         return (value: any, index: number, values: any[]): boolean => true;
     }
 
-    private get filteredData(): any[] {
-        return this.data.filter(this.filter);
+    private getFilteredData(): any[] {
+        if (this.data === null) {
+            return [];
+        }
+        const filter = this.getFilter();
+        return this.data.filter(filter);
+    }
+
+    private getFilter(): FilterFunc {
+        const filters: FilterFunc[] = [];
+        this.columnFilterConfigs.forEach((config, headerName) => {
+            filters.push(config.filter);
+        });
+        const filter = (value: any, index: number, array: any[]): boolean => {
+            return filters.every((f) => f(value, index, array));
+        };
+        return filter;
     }
 
     private getValue(row: any, column: CoreDataGridColumnDirective): any {
@@ -286,5 +304,18 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             }
         }
         return value;
+    }
+
+    public reset(): void {
+        this.sortField = null;
+        this.isSortDescending = false;
+        this.page = 1;
+        this.columns.forEach((column) => {
+            const config = this.columnFilterConfigs.get(column.headerName);
+            config.isFiltered = false;
+            config.data = CoreDataGridComponent.getDefaultData(column);
+            config.filter = CoreDataGridComponent.getDefaultFilter();
+        });
+        this.filteredData = this.getFilteredData();
     }
 }

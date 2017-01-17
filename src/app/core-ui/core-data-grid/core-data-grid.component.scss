@@ -1,3 +1,28 @@
 table.core-data-grid {
     margin-bottom: 0;
 }
+
+.core-data-grid a.data-grid-filter-icon {
+    text-decoration: none;
+    color: #000;
+}
+
+.core-data-grid a.data-grid-filter-icon .filtered {
+    text-decoration: none;
+    color: #F00;
+}
+
+.core-data-grid a.data-grid-sort-icon {
+    text-decoration: none;
+    color: #000;
+}
+
+.core-data-grid a.data-grid-sort-icon .fa-sort-asc {
+    text-decoration: none;
+    color: #0C3;
+}
+
+.core-data-grid a.data-grid-sort-icon .fa-sort-desc {
+    text-decoration: none;
+    color: #F00;
+}

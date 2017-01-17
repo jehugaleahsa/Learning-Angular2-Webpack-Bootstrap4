@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import { CoreDataGridComponent } from "../core-ui/core-data-grid/core-data-grid.component";
 
@@ -8,6 +8,8 @@ import "./data-grid-demo.component.scss";
     template: require("./data-grid-demo.component.html")
 })
 export class DataGridDemoComponent {
+    @ViewChild(CoreDataGridComponent) private grid: CoreDataGridComponent;
+
     public getData(grid: CoreDataGridComponent): void {
         grid.data = [
             {
@@ -74,5 +76,10 @@ export class DataGridDemoComponent {
                 rate: 15.43
             }
         ];
+    }
+
+    private reset(): boolean {
+        this.grid.reset();
+        return false;
     }
 }
