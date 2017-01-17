@@ -29,8 +29,8 @@ interface IFilterConfig {
     template: require("./core-data-grid.component.html")
 })
 export class CoreDataGridComponent implements AfterContentInit, OnInit {
-    private sortField: string = null;
-    private isSortDescending: boolean = false;
+    @Input() public sortField: string = null;
+    @Input() public isSortDescending: boolean = false;
     private columnFilterConfigs = new Map<string, IFilterConfig>();
     @ContentChildren(CoreDataGridColumnDirective) public columns: QueryList<CoreDataGridColumnDirective>;
     @Input() public data: any[];
@@ -295,9 +295,9 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
 
     private getValue(row: any, column: CoreDataGridColumnDirective): any {
         const value = row[column.bind];
-        if (value as Date && !!column.dateFormat) {
+        if (value instanceof Date && !!column.dateFormat) {
             return this.datePipe.transform(value, column.dateFormat);
-        } else if (value as number) {
+        } else if (typeof value === "number") {
             if (!!column.currencyFormat) {
                 return this.currencyPipe.transform(value, column.currencyFormat, true, "1.2-2");
             } else if (!!column.percentFormat) {

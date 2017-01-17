@@ -76,7 +76,7 @@
 </table>
 <div class="row">
     <div class="col">
-        <ngb-pagination *ngIf="data && pageSize !== null"
+        <ngb-pagination *ngIf="data && pageSize !== null && data.length > pageSize"
                         [ellipses]="true"
                         [maxSize]="10"
                         [boundaryLinks]="true"

@@ -9,7 +9,13 @@ import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
 import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
 
 export const routes: Routes = [
-    { path: "", redirectTo: "home", pathMatch: "full" },
+    { path: "", redirectTo: "/home", pathMatch: "full" },
+    { path: "date-picker-demo", redirectTo: "/home/(tabs:date-picker-demo)", pathMatch: "full" },
+    { path: "panel-demo", redirectTo: "/home/(tabs:panel-demo)", pathMatch: "full" },
+    { path: "collapsible-panel-demo", redirectTo: "/home/(tabs:collapsible-panel-demo)", pathMatch: "full" },
+    { path: "spinner-demo", redirectTo: "/home/(tabs:spinner-demo)", pathMatch: "full" },
+    { path: "modal-demo", redirectTo: "/home/(tabs:modal-demo)", pathMatch: "full" },
+    { path: "data-grid-demo", redirectTo: "/home/(tabs:data-grid-demo)", pathMatch: "full" },
     {
         children: [
             { path: "date-picker-demo", component: DatePickerDemoComponent, outlet: "tabs" },
