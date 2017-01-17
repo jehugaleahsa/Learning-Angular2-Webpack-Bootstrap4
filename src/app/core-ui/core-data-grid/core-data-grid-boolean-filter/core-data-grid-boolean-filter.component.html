@@ -1,0 +1,15 @@
+<div class="core-data-grid-boolean-filter">
+    <div class="form-group">
+        Value:
+        <select class="form-control" [(ngModel)]="model.value">
+            <option [ngValue]="null">None</option>
+            <option [ngValue]="true">True</option>
+            <option [ngValue]="false">False</option>
+        </select>
+    </div>
+    <div class="pull-right btn-group" role="group">
+        <button class="btn btn-primary" (click)="applyFilter()">Apply</button>
+        <button class="btn btn-danger" (click)="clearFilter()">Clear</button>
+        <button class="btn btn-secondary" (click)="closeFilterEditor()">Cancel</button>
+    </div>
+</div>

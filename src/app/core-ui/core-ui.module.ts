@@ -9,7 +9,25 @@ import { ControlStatus } from "./control-status";
 import { CoreAlertModalComponent } from "./core-alert-modal/core-alert-modal.component";
 import { CoreCollapsiblePanelComponent } from "./core-collapsible-panel/core-collapsible-panel.component";
 import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-confirmation-modal.component";
+import {
+    CoreDataGridBooleanFilterComponent
+} from "./core-data-grid/core-data-grid-boolean-filter/core-data-grid-boolean-filter.component";
 import { CoreDataGridColumnDirective } from "./core-data-grid/core-data-grid-column.directive";
+import {
+    CoreDataGridContainsFilterComponent
+} from "./core-data-grid/core-data-grid-contains-filter/core-data-grid-contains-filter.component";
+import {
+    CoreDataGridDateRangeFilterComponent
+} from "./core-data-grid/core-data-grid-date-range-filter/core-data-grid-date-range-filter.component";
+import {
+    CoreDataGridEndsWithFilterComponent
+} from "./core-data-grid/core-data-grid-ends-with-filter/core-data-grid-ends-with-filter.component";
+import {
+    CoreDataGridNumberRangeFilterComponent
+} from "./core-data-grid/core-data-grid-number-range-filter/core-data-grid-number-range-filter.component";
+import {
+    CoreDataGridStartsWithFilterComponent
+} from "./core-data-grid/core-data-grid-starts-with-filter/core-data-grid-starts-with-filter.component";
 import { CoreDataGridComponent } from "./core-data-grid/core-data-grid.component";
 import { OrderByPipe } from "./core-data-grid/order-by.pipe";
 import { PageByPipe } from "./core-data-grid/page-by.pipe";
@@ -29,6 +47,12 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreConfirmationModalComponent,
         CoreDataGridColumnDirective,
         CoreDataGridComponent,
+        CoreDataGridBooleanFilterComponent,
+        CoreDataGridContainsFilterComponent,
+        CoreDataGridDateRangeFilterComponent,
+        CoreDataGridEndsWithFilterComponent,
+        CoreDataGridNumberRangeFilterComponent,
+        CoreDataGridStartsWithFilterComponent,
         CoreDatePickerComponent,
         CorePanelComponent,
         CoreRoutingTabTitleDirective,

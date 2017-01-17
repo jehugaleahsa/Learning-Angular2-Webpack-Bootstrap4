@@ -1,0 +1,11 @@
+<div class="core-data-grid-number-range-filter">
+    <div class="form-group">
+        Start: <input type="number" step="any" class="form-control" [(ngModel)]="model.start" />
+        End: <input type="number" step="any" class="form-control" [(ngModel)]="model.end" />
+    </div>
+    <div class="pull-right btn-group" role="group">
+        <button class="btn btn-primary" (click)="applyFilter()">Apply</button>
+        <button class="btn btn-danger" (click)="clearFilter()">Clear</button>
+        <button class="btn btn-secondary" (click)="closeFilterEditor()">Cancel</button>
+    </div>
+</div>

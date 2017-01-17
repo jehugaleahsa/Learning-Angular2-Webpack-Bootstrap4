@@ -2,7 +2,10 @@
     <thead>
         <tr>
             <th *ngFor="let column of columns">
-                {{column.headerName}}
+                <a class="column-header"
+                   [attr.href]="column.isSortable"
+                   [class.disabled]="!column.isSortable"
+                   (click)="sortBy(column)">{{column.headerName}}</a>
                 <div class="pull-right">
                     <a href
                        class="data-grid-filter-icon"
@@ -15,91 +18,42 @@
                        triggers="manual">
                         <span class="fa fa-filter" [class.filtered]="isFiltered(column)"></span>
                         <template #filterContent>
-                            <div *ngIf="column.filter === 'contains'" >
-                                <div class="form-group">
-                                    Contains: <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
-                                </div>
-                                <div class="pull-right btn-group" role="group">
-                                    <button class="btn btn-primary"
-                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
-                                    <button class="btn btn-danger"
-                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
-                                    <button class="btn btn-secondary"
-                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
-                                </div>
-                            </div>
-                            <div *ngIf="column.filter === 'startsWith'" >
-                                <div class="form-group">
-                                    Starts With: <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
-                                </div>
-                                <div class="pull-right btn-group" role="group">
-                                    <button class="btn btn-primary"
-                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
-                                    <button class="btn btn-danger"
-                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
-                                    <button class="btn btn-secondary"
-                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
-                                </div>
-                            </div>
-                            <div *ngIf="column.filter === 'endsWith'" >
-                                <div class="form-group">
-                                    Ends With: <input type="text" class="form-control" [(ngModel)]="getModel(column).value" />
-                                </div>
-                                <div class="pull-right btn-group" role="group">
-                                    <button class="btn btn-primary"
-                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
-                                    <button class="btn btn-danger"
-                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
-                                    <button class="btn btn-secondary"
-                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
-                                </div>
-                            </div>
-                            <div *ngIf="column.filter === 'numberRange'" >
-                                <div class="form-group">
-                                    Start: <input type="number" step="any" class="form-control" [(ngModel)]="getModel(column).start" />
-                                    End: <input type="number" step="any" class="form-control" [(ngModel)]="getModel(column).end" />
-                                </div>
-                                <div class="pull-right btn-group" role="group">
-                                    <button class="btn btn-primary"
-                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
-                                    <button class="btn btn-danger"
-                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
-                                    <button class="btn btn-secondary"
-                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
-                                </div>
-                            </div>
-                            <div *ngIf="column.filter === 'dateRange'" >
-                                <div class="form-group">
-                                    Start: <core-date-picker [(date)]="getModel(column).start"></core-date-picker>
-                                    End: <core-date-picker [(date)]="getModel(column).end"></core-date-picker>
-                                </div>
-                                <div class="pull-right btn-group" role="group">
-                                    <button class="btn btn-primary"
-                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
-                                    <button class="btn btn-danger"
-                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
-                                    <button class="btn btn-secondary"
-                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
-                                </div>
-                            </div>
-                            <div *ngIf="column.filter === 'boolean'" >
-                                <div class="form-group">
-                                    Value:
-                                    <select class="form-control" [(ngModel)]="getModel(column).value">
-                                        <option [ngValue]="null">None</option>
-                                        <option [ngValue]="true">True</option>
-                                        <option [ngValue]="false">False</option>
-                                    </select>
-                                </div>
-                                <div class="pull-right btn-group" role="group">
-                                    <button class="btn btn-primary"
-                                            (click)="applyFilter(column, true, filterPopup)">Apply</button>
-                                    <button class="btn btn-danger"
-                                            (click)="applyFilter(column, false, filterPopup)">Clear</button>
-                                    <button class="btn btn-secondary"
-                                            (click)="closeFilterEditor(filterPopup)">Cancel</button>
-                                </div>
-                            </div>
+                            <core-data-grid-contains-filter *ngIf="column.filter === 'contains'"
+                                                            [model]="getModel(column)"
+                                                            (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                            (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                            (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-contains-filter>
+                            <core-data-grid-starts-with-filter *ngIf="column.filter === 'startsWith'"
+                                                               [model]="getModel(column)"
+                                                               (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                               (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                               (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-starts-with-filter>
+                            <core-data-grid-ends-with-filter *ngIf="column.filter === 'endsWith'"
+                                                             [model]="getModel(column)"
+                                                             (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                             (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                             (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-ends-with-filter>
+                            <core-data-grid-number-range-filter *ngIf="column.filter === 'numberRange'"
+                                                                [model]=getModel(column)
+                                                                (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                                (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                                (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-number-range-filter>
+                            <core-data-grid-date-range-filter *ngIf="column.filter === 'dateRange'"
+                                                              [model]=getModel(column)
+                                                              (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                              (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                              (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-date-range-filter>
+                            <core-data-grid-boolean-filter *ngIf="column.filter === 'boolean'"
+                                                           [model]=getModel(column)
+                                                           (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                           (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                           (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-boolean-filter>
                         </template>
                     </a>
                     <a href class="data-grid-sort-icon" (click)="sortBy(column)" *ngIf="column.isSortable">
@@ -132,12 +86,14 @@
                         [pageSize]="pageSize"></ngb-pagination>
     </div>
     <div class="col-2">
-        Page Size:
-        <select [(ngModel)]="pageSize">
-            <option *ngFor="let pageSizeOption of pageSizes" [ngValue]="pageSizeOption">
-                {{pageSizeOption}}
-            </option>
-        </select>
+        <div class="form-inline">
+            <label class="mr-2">Page Size:</label>
+            <select [(ngModel)]="pageSize" class="form-control">
+                <option *ngFor="let pageSizeOption of pageSizes" [ngValue]="pageSizeOption">
+                    {{pageSizeOption}}
+                </option>
+            </select>
+        </div>
     </div>
     <div class="col">
         <div class="pull-right">

@@ -2,6 +2,15 @@ table.core-data-grid {
     margin-bottom: 0;
 }
 
+.core-data-grid a.column-header {
+    color: #000;
+}
+
+.core-data-grid a.column-header.disabled {
+    text-decoration: none;
+    cursor: default;
+}
+
 .core-data-grid a.data-grid-filter-icon {
     text-decoration: none;
     color: #000;

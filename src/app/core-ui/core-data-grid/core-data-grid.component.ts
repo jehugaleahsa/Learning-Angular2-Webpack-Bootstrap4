@@ -65,6 +65,9 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
     }
 
     private sortBy(column: CoreDataGridColumnDirective): boolean {
+        if (!column.isSortable) {
+            return false;
+        }
         if (this.sortField === column.bind) {
             this.isSortDescending = !this.isSortDescending;
         } else {

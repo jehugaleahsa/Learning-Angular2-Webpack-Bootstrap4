@@ -1,0 +1,11 @@
+<div class="core-data-grid-date-range-filter">
+    <div class="form-group">
+        Start: <core-date-picker [(date)]="model.start"></core-date-picker>
+        End: <core-date-picker [(date)]="model.end"></core-date-picker>
+    </div>
+    <div class="pull-right btn-group" role="group">
+        <button class="btn btn-primary" (click)="applyFilter()">Apply</button>
+        <button class="btn btn-danger" (click)="clearFilter()">Clear</button>
+        <button class="btn btn-secondary" (click)="closeFilterEditor()">Cancel</button>
+    </div>
+</div>

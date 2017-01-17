@@ -1,0 +1,10 @@
+<div class="core-data-grid-starts-with-filter">
+    <div class="form-group">
+        Starts With: <input type="text" class="form-control" [(ngModel)]="model.value" />
+    </div>
+    <div class="pull-right btn-group" role="group">
+        <button class="btn btn-primary" (click)="applyFilter()">Apply</button>
+        <button class="btn btn-danger" (click)="clearFilter()">Clear</button>
+        <button class="btn btn-secondary" (click)="closeFilterEditor()">Cancel</button>
+    </div>
+</div>
