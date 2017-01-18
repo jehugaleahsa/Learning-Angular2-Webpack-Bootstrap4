@@ -11,6 +11,9 @@ import { CoreConfirmationModalComponent } from "./core-confirmation-modal/core-c
 import {
     CoreDataGridBooleanFilterComponent
 } from "./core-data-grid/core-data-grid-boolean-filter/core-data-grid-boolean-filter.component";
+import {
+    CoreDataGridColumnTemplateDirective
+} from "./core-data-grid/core-data-grid-column-template.directive";
 import { CoreDataGridColumnDirective } from "./core-data-grid/core-data-grid-column.directive";
 import {
     CoreDataGridContainsFilterComponent
@@ -45,6 +48,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreCollapsiblePanelComponent,
         CoreConfirmationModalComponent,
         CoreDataGridColumnDirective,
+        CoreDataGridColumnTemplateDirective,
         CoreDataGridComponent,
         CoreDataGridBooleanFilterComponent,
         CoreDataGridContainsFilterComponent,
@@ -68,6 +72,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreCollapsiblePanelComponent,
         CoreConfirmationModalComponent,
         CoreDataGridColumnDirective,
+        CoreDataGridColumnTemplateDirective,
         CoreDataGridComponent,
         CoreDatePickerComponent,
         CorePanelComponent,

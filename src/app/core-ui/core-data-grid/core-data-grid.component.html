@@ -70,7 +70,10 @@
         <tr scope="row"
             *ngFor="let row of filteredData | orderBy: sortField : isSortDescending | pageBy: pageSize : page : isServerSide">
             <td *ngFor="let column of columns">
-                {{ getValue(row, column) }}
+                <span *ngIf="column.contentTemplate?.template === null">{{ getValue(row, column) }}</span>
+                <template *ngIf="column.contentTemplate?.template !== null"
+                          [ngTemplateOutlet]="column.contentTemplate?.template"
+                          [ngOutletContext]="{ column: column, record: row, value: getValue(row, column) }"></template>
             </td>
         </tr>
         <tr *ngIf="filteredData.length === 0">

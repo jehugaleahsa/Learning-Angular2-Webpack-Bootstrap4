@@ -28,7 +28,11 @@
     <core-data-grid-column headerName="Active?"
                            bind="isActive"
                            [isSortable]="true"
-                           filter="boolean"></core-data-grid-column>
+                           filter="boolean">
+        <template columnContent let-isActive="value">
+            <input name="chkIsActive" type="checkbox" [ngModel]="isActive" disabled />
+        </template>
+    </core-data-grid-column>
 </core-data-grid>
 <div class="row">
     <div class="col">

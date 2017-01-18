@@ -37,7 +37,7 @@ export interface IDataGridParameters {
     isSortDescending: boolean;
     page: number;
     pageSize: number;
-    filters: IDataGridFilterConfig[]
+    filters: IDataGridFilterConfig[];
 }
 
 @Component({

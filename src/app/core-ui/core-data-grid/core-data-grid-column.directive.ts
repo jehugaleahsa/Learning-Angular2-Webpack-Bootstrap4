@@ -1,9 +1,14 @@
-import { Directive, Input } from "@angular/core";
+import { ContentChild, Directive, Input } from "@angular/core";
+
+import { CoreDataGridColumnTemplateDirective } from "./core-data-grid-column-template.directive";
 
 @Directive({
     selector: "core-data-grid-column"
 })
 export class CoreDataGridColumnDirective {
+    @ContentChild(CoreDataGridColumnTemplateDirective)
+    public contentTemplate: CoreDataGridColumnTemplateDirective = null;
+
     @Input() public headerName: string = null;
     @Input() public bind: string = null;
     @Input() public isSortable: boolean = false;

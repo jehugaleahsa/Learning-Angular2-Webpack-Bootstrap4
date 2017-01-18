@@ -70,6 +70,42 @@ const data = [
         lastName: "Lionel",
         phone: "(555) 897-0654",
         rate: 15.43
+    },
+    {
+        createdOn: new Date(1964, 6, 7),
+        email: "shammer@x.com",
+        firstName: "Steve",
+        isActive: true,
+        lastName: "Hammer",
+        phone: "(555) 456-0008",
+        rate: 112.08
+    },
+    {
+        createdOn: new Date(1978, 9, 11),
+        email: "tpetry@x.com",
+        firstName: "Tyler",
+        isActive: false,
+        lastName: "Petry",
+        phone: "(555) 111-2222",
+        rate: 45.23
+    },
+    {
+        createdOn: new Date(1965, 6, 21),
+        email: "ajalice@x.com",
+        firstName: "Alice",
+        isActive: true,
+        lastName: "Jalice",
+        phone: "(555) 222-3456",
+        rate: 56.11
+    },
+    {
+        createdOn: new Date(1999, 11, 31),
+        email: "rjohnson@x.com",
+        firstName: "Robert",
+        isActive: false,
+        lastName: "Johnson",
+        phone: "(555) 456-8887",
+        rate: 45.89
     }
 ];
 

@@ -24,8 +24,7 @@ So far I have built:
 - A data grid control that supports client- and server-side sorting, filtering and paging.
 
 Upcoming features:
-- Data grid column templates to allow custom content within table cells.
-- Enum/select filter type for the data grid. 
+- Enum/select filter type for the data grid.
 
 Pending Feedback:
 - A button group in the DatePicker to choose Today, Clear or Close.
