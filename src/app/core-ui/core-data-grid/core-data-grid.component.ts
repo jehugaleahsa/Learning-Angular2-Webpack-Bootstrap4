@@ -12,6 +12,8 @@ import {
 import { NgbPopover } from "@ng-bootstrap/ng-bootstrap";
 
 import { CoreDataGridColumnDirective } from "./core-data-grid-column.directive";
+import { OrderByPipe } from "./order-by.pipe";
+import { PageByPipe } from "./page-by.pipe";
 
 import "./core-data-grid.component.scss";
 
@@ -63,7 +65,9 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         private currencyPipe: CurrencyPipe,
         private datePipe: DatePipe,
         private decimalPipe: DecimalPipe,
-        private percentPipe: PercentPipe) {
+        private percentPipe: PercentPipe,
+        private orderByPipe: OrderByPipe,
+        private pageByPipe: PageByPipe) {
     }
 
     public ngOnInit(): void {
@@ -85,12 +89,7 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
 
     public setData(data: any[], totalLength?: number): void {
         this.data = data;
-        this.totalLength = (!this.isServerSide || typeof totalLength === "undefined")
-            ? (data === null)
-                ? 0
-                : data.length
-            : Math.max(totalLength, 0);
-        this.applyChanges();
+        this.applyChanges(totalLength);
     }
 
     private sortBy(column: CoreDataGridColumnDirective): boolean {
@@ -393,16 +392,16 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         }
     }
 
-    private applyChanges(): void {
-        if (this.data === null) {
-            this.filteredData = [];
-            return;
-        }
+    private applyChanges(totalLength?: number): void {
         if (this.isServerSide) {
-            this.filteredData = this.data;
+            this.filteredData = this.data === null ? [] : this.data;
+            this.totalLength = (typeof totalLength === "undefined")
+                ? this.filteredData.length
+                : Math.max(totalLength, 0);
         } else {
             const filter = this.getFilter();
-            this.filteredData = this.data.filter(filter);
+            this.filteredData = this.data === null ? [] : this.data.filter(filter);
+            this.totalLength = this.filteredData.length;
         }
     }
 
@@ -415,5 +414,15 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             return filters.every((f) => f(value, index, array));
         };
         return filter;
+    }
+
+    public export(currentPageOnly: boolean = false): any[] {
+        const filtered = this.filteredData;
+        const ordered = this.orderByPipe.transform(filtered, this.sortField, this.isSortDescending);
+        if (!currentPageOnly) {
+            return ordered;
+        }
+        const paged = this.pageByPipe.transform(ordered, this.pageSize, this.page, this.isServerSide);
+        return paged;
     }
 }

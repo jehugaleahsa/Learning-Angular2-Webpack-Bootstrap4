@@ -128,6 +128,7 @@ const data = [
 })
 export class DataGridDemoComponent {
     @ViewChild(CoreDataGridComponent) private grid: CoreDataGridComponent;
+    private exportedData: any[] = null;
 
     public getClientSideData(grid: CoreDataGridComponent): void {
         grid.setData(data);
@@ -135,6 +136,11 @@ export class DataGridDemoComponent {
 
     private reset(): boolean {
         this.grid.reset();
+        return false;
+    }
+
+    private export(): boolean {
+        this.exportedData = this.grid.export();
         return false;
     }
 

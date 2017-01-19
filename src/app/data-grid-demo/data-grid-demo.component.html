@@ -44,8 +44,18 @@
     </core-data-grid-column>
 </core-data-grid>
 <div class="row">
-    <div class="col">
+    <div class="col-1">
+        <button class="btn btn-primary" (click)="export()">Export</button>
+    </div>
+    <div class="col-1">
         <button class="btn btn-warning" (click)="reset()">Reset</button>
+    </div>
+    <div class="col">
+    </div>
+</div>
+<div class="row" *ngIf="exportedData">
+    <div class="col">
+        <pre>{{exportedData | json}}</pre>
     </div>
 </div>
 <core-collapsible-panel title="Server-side Paging">
