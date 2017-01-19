@@ -20,6 +20,15 @@
                            [isSortable]="true"
                            filter="numberRange"
                            currencyFormat="USD"></core-data-grid-column>
+    <core-data-grid-column headerName="Pet"
+                           bind="pet"
+                           [isSortable]="true"
+                           filter="option"
+                           [options]="petOptions">
+        <template columnContent let-petValue="value">
+            {{getPetDescription(petValue)}}
+        </template>
+    </core-data-grid-column>
     <core-data-grid-column headerName="Created On"
                            bind="createdOn"
                            [isSortable]="true"

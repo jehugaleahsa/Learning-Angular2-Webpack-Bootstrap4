@@ -1,6 +1,9 @@
 import { ContentChild, Directive, Input } from "@angular/core";
 
 import { CoreDataGridColumnTemplateDirective } from "./core-data-grid-column-template.directive";
+import {
+    IFilterOption
+} from "./core-data-grid-option-filter/core-data-grid-option-filter.component";
 
 @Directive({
     selector: "core-data-grid-column"
@@ -17,4 +20,5 @@ export class CoreDataGridColumnDirective {
     @Input() public dateFormat: string = null;
     @Input() public decimalFormat: string = null;
     @Input() public percentFormat: string = null;
+    @Input() public options: IFilterOption[];
 }

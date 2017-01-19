@@ -37,23 +37,30 @@
                                                              (filterEditorClosed)="closeFilterEditor(filterPopup)">
                             </core-data-grid-ends-with-filter>
                             <core-data-grid-number-range-filter *ngIf="column.filter === 'numberRange'"
-                                                                [model]=getModel(column)
+                                                                [model]="getModel(column)"
                                                                 (filterApplied)="applyFilter(column, true, filterPopup)"
                                                                 (filterCleared)="applyFilter(column, false, filterPopup)"
                                                                 (filterEditorClosed)="closeFilterEditor(filterPopup)">
                             </core-data-grid-number-range-filter>
                             <core-data-grid-date-range-filter *ngIf="column.filter === 'dateRange'"
-                                                              [model]=getModel(column)
+                                                              [model]="getModel(column)"
                                                               (filterApplied)="applyFilter(column, true, filterPopup)"
                                                               (filterCleared)="applyFilter(column, false, filterPopup)"
                                                               (filterEditorClosed)="closeFilterEditor(filterPopup)">
                             </core-data-grid-date-range-filter>
                             <core-data-grid-boolean-filter *ngIf="column.filter === 'boolean'"
-                                                           [model]=getModel(column)
+                                                           [model]="getModel(column)"
                                                            (filterApplied)="applyFilter(column, true, filterPopup)"
                                                            (filterCleared)="applyFilter(column, false, filterPopup)"
                                                            (filterEditorClosed)="closeFilterEditor(filterPopup)">
                             </core-data-grid-boolean-filter>
+                            <core-data-grid-option-filter *ngIf="column.filter === 'option'"
+                                                          [model]="getModel(column)"
+                                                          [options]="column.options"
+                                                          (filterApplied)="applyFilter(column, true, filterPopup)"
+                                                          (filterCleared)="applyFilter(column, false, filterPopup)"
+                                                          (filterEditorClosed)="closeFilterEditor(filterPopup)">
+                            </core-data-grid-option-filter>
                         </template>
                     </a>
                     <a href class="data-grid-sort-icon" (click)="sortBy(column)" *ngIf="column.isSortable">

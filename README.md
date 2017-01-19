@@ -23,9 +23,6 @@ So far I have built:
 - A tabset control that works with Angular 2 routing to host different child routes under the tabs.
 - A data grid control that supports client- and server-side sorting, filtering and paging.
 
-Upcoming features:
-- Enum/select filter type for the data grid.
-
 Pending Feedback:
 - A button group in the DatePicker to choose Today, Clear or Close.
 - The data grid filter popovers go off-screen if the table is next to the edge of the screen.

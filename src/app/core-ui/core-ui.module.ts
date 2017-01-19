@@ -28,6 +28,10 @@ import {
     CoreDataGridNumberRangeFilterComponent
 } from "./core-data-grid/core-data-grid-number-range-filter/core-data-grid-number-range-filter.component";
 import {
+    CoreDataGridOptionFilterComponent,
+    IFilterOption
+} from "./core-data-grid/core-data-grid-option-filter/core-data-grid-option-filter.component";
+import {
     CoreDataGridStartsWithFilterComponent
 } from "./core-data-grid/core-data-grid-starts-with-filter/core-data-grid-starts-with-filter.component";
 import { CoreDataGridComponent } from "./core-data-grid/core-data-grid.component";
@@ -55,6 +59,7 @@ import { CoreSpinnerComponent } from "./core-spinner/core-spinner.component";
         CoreDataGridDateRangeFilterComponent,
         CoreDataGridEndsWithFilterComponent,
         CoreDataGridNumberRangeFilterComponent,
+        CoreDataGridOptionFilterComponent,
         CoreDataGridStartsWithFilterComponent,
         CoreDatePickerComponent,
         CorePanelComponent,

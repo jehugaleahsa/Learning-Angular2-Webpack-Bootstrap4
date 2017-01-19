@@ -1,6 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
 
 import {
+    IFilterOption
+} from "../core-ui/core-data-grid/core-data-grid-option-filter/core-data-grid-option-filter.component";
+import {
     CoreDataGridComponent,
     IDataGridParameters
 } from "../core-ui/core-data-grid/core-data-grid.component";
@@ -14,6 +17,7 @@ const data = [
         firstName: "John",
         isActive: true,
         lastName: "Smith",
+        pet: 0,
         phone: "(555) 555-5555",
         rate: 43.01
     },
@@ -23,6 +27,7 @@ const data = [
         firstName: "Jane",
         isActive: false,
         lastName: "Doe",
+        pet: 1,
         phone: "(555) 444-4444",
         rate: 28.16
     },
@@ -32,6 +37,7 @@ const data = [
         firstName: "Isabeau",
         isActive: true,
         lastName: "Parks",
+        pet: 1,
         phone: "(555) 123-4567",
         rate: 59.11
     },
@@ -41,6 +47,7 @@ const data = [
         firstName: "Avie",
         isActive: true,
         lastName: "Pumpkin",
+        pet: 2,
         phone: "(555) 345-0001",
         rate: 18.03
     },
@@ -50,6 +57,7 @@ const data = [
         firstName: "Harold",
         isActive: true,
         lastName: "Limpet",
+        pet: 3,
         phone: "(555) 888-4443",
         rate: 11.11
     },
@@ -59,6 +67,7 @@ const data = [
         firstName: "Sheryl",
         isActive: false,
         lastName: "Weine",
+        pet: 4,
         phone: "(555) 765-4598",
         rate: 78.56
     },
@@ -68,6 +77,7 @@ const data = [
         firstName: "David",
         isActive: true,
         lastName: "Lionel",
+        pet: 5,
         phone: "(555) 897-0654",
         rate: 15.43
     },
@@ -77,6 +87,7 @@ const data = [
         firstName: "Steve",
         isActive: true,
         lastName: "Hammer",
+        pet: 0,
         phone: "(555) 456-0008",
         rate: 112.08
     },
@@ -86,6 +97,7 @@ const data = [
         firstName: "Tyler",
         isActive: false,
         lastName: "Petry",
+        pet: 1,
         phone: "(555) 111-2222",
         rate: 45.23
     },
@@ -95,6 +107,7 @@ const data = [
         firstName: "Alice",
         isActive: true,
         lastName: "Jalice",
+        pet: 2,
         phone: "(555) 222-3456",
         rate: 56.11
     },
@@ -104,6 +117,7 @@ const data = [
         firstName: "Robert",
         isActive: false,
         lastName: "Johnson",
+        pet: 3,
         phone: "(555) 456-8887",
         rate: 45.89
     }
@@ -129,5 +143,19 @@ export class DataGridDemoComponent {
         const endIndex = Math.min(startIndex + parameters.pageSize, data.length);
         const page = data.slice(startIndex, endIndex);
         parameters.grid.setData(page, data.length);
+    }
+
+    private petOptions: IFilterOption[] = [
+        { value: 0, description: "Dog" },
+        { value: 1, description: "Cat" },
+        { value: 2, description: "Bird" },
+        { value: 3, description: "Lizard" },
+        { value: 4, description: "Hampster" },
+        { value: 5, description: "Fish" }
+    ];
+
+    private getPetDescription(value: number): string {
+        const option = this.petOptions.find((o) => o.value === value);
+        return option ? option.description : "None";
     }
 }

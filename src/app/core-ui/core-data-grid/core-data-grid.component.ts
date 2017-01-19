@@ -154,6 +154,8 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             return { start: null, end: null };
         } else if (column.filter === "boolean") {
             return { value: null };
+        } else if (column.filter === "option") {
+            return { value: null };
         } else {
             return null;
         }
@@ -174,6 +176,8 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             return CoreDataGridComponent.getDateRangeFilter(column, data.start, data.end);
         } else if (column.filter === "boolean") {
             return CoreDataGridComponent.getBooleanFilter(column, data.value);
+        } else if (column.filter === "option") {
+            return CoreDataGridComponent.getOptionFilter(column, data.value);
         } else {
             return CoreDataGridComponent.getDefaultFilter();
         }
@@ -295,6 +299,19 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (typeof bound !== "boolean") {
                 return false;
             }
+            return value === bound;
+        };
+    }
+
+    private static getOptionFilter(column: CoreDataGridColumnDirective, value: any): FilterFunc {
+        return (item) => {
+            if (value === null) {
+                return true;
+            }
+            if (!item || !(column.bind in item)) {
+                return false;
+            }
+            const bound = item[column.bind];
             return value === bound;
         };
     }
