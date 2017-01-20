@@ -13,7 +13,7 @@ export class CoreDataGridColumnDirective {
     public contentTemplate: CoreDataGridColumnTemplateDirective = null;
 
     @Input() public headerName: string = null;
-    @Input() public bind: string = null;
+    @Input() public fieldName: string = null;
     @Input() public isSortable: boolean = false;
     @Input() public filter: string = null;
     @Input() public currencyFormat: string = null;

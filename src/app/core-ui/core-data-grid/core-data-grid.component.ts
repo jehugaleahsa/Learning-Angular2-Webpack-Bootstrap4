@@ -42,6 +42,11 @@ export interface IDataGridParameters {
     filters: IDataGridFilterConfig[];
 }
 
+export interface IDataGridExport {
+    parameters: IDataGridParameters;
+    data: any[];
+}
+
 @Component({
     selector: "core-data-grid",
     template: require("./core-data-grid.component.html")
@@ -96,10 +101,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         if (!column.isSortable) {
             return false;
         }
-        if (this.sortField === column.bind) {
+        if (this.sortField === column.fieldName) {
             this.isSortDescending = !this.isSortDescending;
         } else {
-            this.sortField = column.bind;
+            this.sortField = column.fieldName;
             this.isSortDescending = false;
         }
         this.refresh();
@@ -187,10 +192,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             if (bound === null) {
                 return false;
             }
@@ -205,10 +210,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             if (bound === null) {
                 return false;
             }
@@ -223,10 +228,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             if (bound === null) {
                 return false;
             }
@@ -244,10 +249,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (start === null && end === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             if (bound === null || typeof bound !== "number") {
                 return false;
             }
@@ -269,10 +274,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (start === null && end === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             if (bound === null || !(bound instanceof Date)) {
                 return false;
             }
@@ -291,10 +296,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             if (typeof bound !== "boolean") {
                 return false;
             }
@@ -307,10 +312,10 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (value === null) {
                 return true;
             }
-            if (!item || !(column.bind in item)) {
+            if (!item || !(column.fieldName in item)) {
                 return false;
             }
-            const bound = item[column.bind];
+            const bound = item[column.fieldName];
             return value === bound;
         };
     }
@@ -320,7 +325,7 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
     }
 
     private getValue(row: any, column: CoreDataGridColumnDirective): any {
-        const value = row[column.bind];
+        const value = row[column.fieldName];
         if (value instanceof Date && !!column.dateFormat) {
             return this.datePipe.transform(value, column.dateFormat);
         } else if (typeof value === "number") {
@@ -368,28 +373,33 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
 
     private refresh(): void {
         if (this.isServerSide) {
-            const filterConfigs: IDataGridFilterConfig[] = [];
-            this.columnFilterConfigs.forEach((config) => {
-                const filterConfig: IDataGridFilterConfig = {
-                    data: config.data,
-                    fieldName: config.column.bind,
-                    filterType: config.column.filter,
-                    headerName: config.column.headerName
-                };
-                filterConfigs.push(filterConfig);
-            });
-            const parameters: IDataGridParameters = {
-                filters: filterConfigs,
-                grid: this,
-                isSortDescending: this.isSortDescending,
-                page: this.page,
-                pageSize: this.pageSize,
-                sortField: this.sortField
-            };
+            const parameters = this.getDataGridParameters();
             this.dataRequested.next(parameters);
         } else {
             this.applyChanges();
         }
+    }
+
+    private getDataGridParameters(): IDataGridParameters {
+        const filterConfigs: IDataGridFilterConfig[] = [];
+        this.columnFilterConfigs.forEach((config) => {
+            const filterConfig: IDataGridFilterConfig = {
+                data: config.data,
+                fieldName: config.column.fieldName,
+                filterType: config.column.filter,
+                headerName: config.column.headerName
+            };
+            filterConfigs.push(filterConfig);
+        });
+        const parameters: IDataGridParameters = {
+            filters: filterConfigs,
+            grid: this,
+            isSortDescending: this.isSortDescending,
+            page: this.page,
+            pageSize: this.pageSize,
+            sortField: this.sortField
+        };
+        return parameters;
     }
 
     private applyChanges(totalLength?: number): void {
@@ -416,13 +426,20 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         return filter;
     }
 
-    public export(currentPageOnly: boolean = false): any[] {
-        const filtered = this.filteredData;
-        const ordered = this.orderByPipe.transform(filtered, this.sortField, this.isSortDescending);
-        if (!currentPageOnly) {
-            return ordered;
+    public export(currentPageOnly: boolean = false): IDataGridExport {
+        const exportDetails: IDataGridExport = {
+            data: this.getTransformedData(currentPageOnly),
+            parameters: this.getDataGridParameters()
+        };
+        return exportDetails;
+    }
+
+    private getTransformedData(currentPageOnly: boolean = false): any[] {
+        let result = this.filteredData;
+        result = this.orderByPipe.transform(result, this.sortField, this.isSortDescending);
+        if (currentPageOnly) {
+            result = this.pageByPipe.transform(result, this.pageSize, this.page, this.isServerSide);
         }
-        const paged = this.pageByPipe.transform(ordered, this.pageSize, this.page, this.isServerSide);
-        return paged;
+        return result;
     }
 }

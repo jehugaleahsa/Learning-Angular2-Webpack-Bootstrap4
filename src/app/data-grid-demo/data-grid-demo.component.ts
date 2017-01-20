@@ -1,10 +1,14 @@
 import { Component, ViewChild } from "@angular/core";
 
 import {
+    CoreCollapsiblePanelComponent
+} from "../core-ui/core-collapsible-panel/core-collapsible-panel.component";
+import {
     IFilterOption
 } from "../core-ui/core-data-grid/core-data-grid-option-filter/core-data-grid-option-filter.component";
 import {
     CoreDataGridComponent,
+    IDataGridExport,
     IDataGridParameters
 } from "../core-ui/core-data-grid/core-data-grid.component";
 
@@ -128,7 +132,8 @@ const data = [
 })
 export class DataGridDemoComponent {
     @ViewChild(CoreDataGridComponent) private grid: CoreDataGridComponent;
-    private exportedData: any[] = null;
+    @ViewChild(CoreCollapsiblePanelComponent) private exportPanel: CoreCollapsiblePanelComponent;
+    private exported: any = null;
 
     public getClientSideData(grid: CoreDataGridComponent): void {
         grid.setData(data);
@@ -140,7 +145,10 @@ export class DataGridDemoComponent {
     }
 
     private export(): boolean {
-        this.exportedData = this.grid.export();
+        const { data: exportData, parameters: parameters } = this.grid.export();
+        delete parameters.grid;
+        this.exported = { parameters: parameters, data: exportData };
+        this.exportPanel.isOpen = true;
         return false;
     }
 

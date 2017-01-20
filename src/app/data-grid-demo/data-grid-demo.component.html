@@ -1,27 +1,27 @@
 <core-data-grid (onInit)="getClientSideData($event)" [pageSize]="5" [pageSizes]="[5, 10, 25, 50]">
     <core-data-grid-column headerName="First Name"
-                           bind="firstName"
+                           fieldName="firstName"
                            [isSortable]="true"
                            filter="contains"></core-data-grid-column>
     <core-data-grid-column headerName="Last Name"
-                           bind="lastName"
+                           fieldName="lastName"
                            [isSortable]="true"
                            filter="contains"></core-data-grid-column>
     <core-data-grid-column headerName="Email"
-                           bind="email"
+                           fieldName="email"
                            [isSortable]="true"
                            filter="startsWith"></core-data-grid-column>
     <core-data-grid-column headerName="Phone"
-                           bind="phone"
+                           fieldName="phone"
                            [isSortable]="true"
                            filter="contains"></core-data-grid-column>
     <core-data-grid-column headerName="Rate"
-                           bind="rate"
+                           fieldName="rate"
                            [isSortable]="true"
                            filter="numberRange"
                            currencyFormat="USD"></core-data-grid-column>
     <core-data-grid-column headerName="Pet"
-                           bind="pet"
+                           fieldName="pet"
                            [isSortable]="true"
                            filter="option"
                            [options]="petOptions">
@@ -30,12 +30,12 @@
         </template>
     </core-data-grid-column>
     <core-data-grid-column headerName="Created On"
-                           bind="createdOn"
+                           fieldName="createdOn"
                            [isSortable]="true"
                            filter="dateRange"
                            dateFormat="MM/dd/yyyy"></core-data-grid-column>
     <core-data-grid-column headerName="Active?"
-                           bind="isActive"
+                           fieldName="isActive"
                            [isSortable]="true"
                            filter="boolean">
         <template columnContent let-isActive="value">
@@ -44,18 +44,18 @@
     </core-data-grid-column>
 </core-data-grid>
 <div class="row">
-    <div class="col-1">
+    <div class="col-2">
         <button class="btn btn-primary" (click)="export()">Export</button>
-    </div>
-    <div class="col-1">
         <button class="btn btn-warning" (click)="reset()">Reset</button>
     </div>
     <div class="col">
     </div>
 </div>
-<div class="row" *ngIf="exportedData">
+<div class="row" [style.visibility]="exported ? 'visible' : 'hidden'">
     <div class="col">
-        <pre>{{exportedData | json}}</pre>
+        <core-collapsible-panel #exportPanel title="Exported Data">
+            <pre>{{exported | json}}</pre>
+        </core-collapsible-panel>
     </div>
 </div>
 <core-collapsible-panel title="Server-side Paging">
@@ -63,12 +63,12 @@
                     [pageSize]="5"
                     [pageSizes]="[5, 10, 25, 50]"
                     (dataRequested)="getServerData($event)">
-        <core-data-grid-column headerName="First Name" bind="firstName"></core-data-grid-column>
-        <core-data-grid-column headerName="Last Name" bind="lastName"></core-data-grid-column>
-        <core-data-grid-column headerName="Email" bind="email"></core-data-grid-column>
-        <core-data-grid-column headerName="Phone" bind="phone"></core-data-grid-column>
-        <core-data-grid-column headerName="Rate" bind="rate" currencyFormat="USD"></core-data-grid-column>
-        <core-data-grid-column headerName="Created On" bind="createdOn" dateFormat="MM/dd/yyyy"></core-data-grid-column>
-        <core-data-grid-column headerName="Active?" bind="isActive"></core-data-grid-column>
+        <core-data-grid-column headerName="First Name" fieldName="firstName"></core-data-grid-column>
+        <core-data-grid-column headerName="Last Name" fieldName="lastName"></core-data-grid-column>
+        <core-data-grid-column headerName="Email" fieldName="email"></core-data-grid-column>
+        <core-data-grid-column headerName="Phone" fieldName="phone"></core-data-grid-column>
+        <core-data-grid-column headerName="Rate" fieldName="rate" currencyFormat="USD"></core-data-grid-column>
+        <core-data-grid-column headerName="Created On" fieldName="createdOn" dateFormat="MM/dd/yyyy"></core-data-grid-column>
+        <core-data-grid-column headerName="Active?" fieldName="isActive"></core-data-grid-column>
     </core-data-grid>
 </core-collapsible-panel>
