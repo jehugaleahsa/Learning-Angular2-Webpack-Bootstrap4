@@ -65,9 +65,9 @@
                     </a>
                     <a href class="data-grid-sort-icon" (click)="sortBy(column)" *ngIf="column.isSortable">
                         <span class="fa"
-                              [class.fa-sort]="column.bind !== sortField"
-                              [class.fa-sort-asc]="column.bind === sortField && !isSortDescending"
-                              [class.fa-sort-desc]="column.bind === sortField && isSortDescending"></span>
+                              [class.fa-sort]="column.fieldName !== sortField"
+                              [class.fa-sort-asc]="column.fieldName === sortField && !isSortDescending"
+                              [class.fa-sort-desc]="column.fieldName === sortField && isSortDescending"></span>
                     </a>
                 </div>
             </th>
