@@ -1,10 +1,17 @@
 <div class="core-data-grid-option-filter">
     <div class="form-group">
-        Value:
-        <select class="form-control" [(ngModel)]="model.value">
-            <option [ngValue]="null">None</option>
-            <option *ngFor="let option of options" [ngValue]="option.value">{{option.description}}</option>
-        </select>
+        Include:
+        <div class="form-check option-container">
+            <div *ngFor="let option of options">
+                <label class="form-check-label">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           [ngModel]="isIncluded(option.value)"
+                           (ngModelChange)="include(option.value, $event)" />
+                    {{option.description}}
+                </label>
+            </div>
+        </div>
     </div>
     <div class="pull-right btn-group" role="group">
         <button class="btn btn-primary" (click)="applyFilter()">Apply</button>

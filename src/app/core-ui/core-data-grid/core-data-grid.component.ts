@@ -12,6 +12,7 @@ import {
 import { NgbPopover } from "@ng-bootstrap/ng-bootstrap";
 
 import { CoreDataGridColumnDirective } from "./core-data-grid-column.directive";
+import { IFilterOption } from "./core-data-grid-option-filter/core-data-grid-option-filter.component";
 import { OrderByPipe } from "./order-by.pipe";
 import { PageByPipe } from "./page-by.pipe";
 
@@ -128,7 +129,7 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
 
     private applyFilter(column: CoreDataGridColumnDirective, isFiltered: boolean, popover: NgbPopover): boolean {
         const config = this.columnFilterConfigs.get(column.headerName);
-        config.isFiltered = isFiltered;
+        config.isFiltered = isFiltered && CoreDataGridComponent.isFiltered(column, config.data);
         if (isFiltered) {
             config.filter = CoreDataGridComponent.getColumnFilter(column, config.data);
         } else {
@@ -159,9 +160,31 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         } else if (column.filter === "boolean") {
             return { value: null };
         } else if (column.filter === "option") {
-            return { value: null };
+            return { value: [] };
         } else {
             return null;
+        }
+    }
+
+    private static isFiltered(column: CoreDataGridColumnDirective, data: any): boolean {
+        if (data === null) {
+            return false;
+        } else if (column.filter === "contains") {
+            return !!data.value;
+        } else if (column.filter === "startsWith") {
+            return !!data.value;
+        } else if (column.filter === "endsWith") {
+            return !!data.value;
+        } else if (column.filter === "numberRange") {
+            return data.start !== null || data.end !== null;
+        } else if (column.filter === "dateRange") {
+            return data.start !== null || data.end !== null;
+        } else if (column.filter === "boolean") {
+            return data.value !== null;
+        } else if (column.filter === "option") {
+            return !!data.value && data.value.length > 0;
+        } else {
+            return false;
         }
     }
 
@@ -256,13 +279,9 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (bound === null || typeof bound !== "number") {
                 return false;
             }
-            if (start === null) {
-                start = bound;
-            }
-            if (end === null) {
-                end = bound;
-            }
-            return start <= bound && bound <= end;
+            const lowerBound = start === null ? bound : start;
+            const upperBound = end === null ? bound : end;
+            return lowerBound <= bound && bound <= upperBound;
         };
     }
 
@@ -281,13 +300,9 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             if (bound === null || !(bound instanceof Date)) {
                 return false;
             }
-            if (start === null) {
-                start = bound;
-            }
-            if (end === null) {
-                end = bound;
-            }
-            return start <= bound && bound <= end;
+            const lowerBound = start === null ? bound : start;
+            const upperBound = end === null ? bound : end;
+            return lowerBound <= bound && bound <= upperBound;
         };
     }
 
@@ -307,16 +322,16 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
         };
     }
 
-    private static getOptionFilter(column: CoreDataGridColumnDirective, value: any): FilterFunc {
+    private static getOptionFilter(column: CoreDataGridColumnDirective, exclusions: any[]): FilterFunc {
         return (item) => {
-            if (value === null) {
+            if (!exclusions) {
                 return true;
             }
             if (!item || !(column.fieldName in item)) {
                 return false;
             }
             const bound = item[column.fieldName];
-            return value === bound;
+            return !exclusions.some((e) => e === bound);
         };
     }
 
@@ -383,8 +398,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
     private getDataGridParameters(): IDataGridParameters {
         const filterConfigs: IDataGridFilterConfig[] = [];
         this.columnFilterConfigs.forEach((config) => {
+            const data = config.column.filter === "option"
+                ? CoreDataGridComponent.getIncludedOptions(config.column.options, config.data.value)
+                : config.data;
             const filterConfig: IDataGridFilterConfig = {
-                data: config.data,
+                data: data,
                 fieldName: config.column.fieldName,
                 filterType: config.column.filter,
                 headerName: config.column.headerName
@@ -400,6 +418,11 @@ export class CoreDataGridComponent implements AfterContentInit, OnInit {
             sortField: this.sortField
         };
         return parameters;
+    }
+
+    private static getIncludedOptions(options: IFilterOption[], exclusions: any[]): any[] {
+        const exclusionSet = new Set(exclusions);
+        return options.map((o) => o.value).filter((v) => !exclusionSet.has(v));
     }
 
     private applyChanges(totalLength?: number): void {

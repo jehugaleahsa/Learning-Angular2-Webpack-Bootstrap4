@@ -165,7 +165,10 @@ export class DataGridDemoComponent {
         { value: 2, description: "Bird" },
         { value: 3, description: "Lizard" },
         { value: 4, description: "Hampster" },
-        { value: 5, description: "Fish" }
+        { value: 5, description: "Fish" },
+        { value: 6, description: "Pony" },
+        { value: 7, description: "Ferret" },
+        { value: 8, description: "Ants" }
     ];
 
     private getPetDescription(value: number): string {
