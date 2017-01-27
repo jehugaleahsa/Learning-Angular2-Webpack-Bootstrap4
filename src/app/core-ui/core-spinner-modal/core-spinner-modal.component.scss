@@ -1,3 +1,12 @@
 .core-spinner-modal .modal-dialog {
     max-width: 122px;
 }
+
+.core-spinner-modal .modal-content {
+    border: none;
+    background-color: transparent;
+}
+
+.core-spinner-modal .fading-circle-spinner .circle:before {
+    background-color: #3DF !important;
+}
