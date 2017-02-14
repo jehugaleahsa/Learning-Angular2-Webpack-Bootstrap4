@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 import { CollapsiblePanelDemoComponent } from "./collaspible-panel-demo/collapsible-panel-demo.component";
 import { DataGridDemoComponent } from "./data-grid-demo/data-grid-demo.component";
 import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.component";
+import { FormsDemoComponent } from "./form-demo/form-demo.component";
 import { HomeComponent } from "./home/home.component";
 import { ModalDemoComponent } from "./modal-demo/modal-demo.component";
 import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
@@ -16,6 +17,7 @@ export const routes: Routes = [
     { path: "spinner-demo", redirectTo: "/home/(tabs:spinner-demo)", pathMatch: "full" },
     { path: "modal-demo", redirectTo: "/home/(tabs:modal-demo)", pathMatch: "full" },
     { path: "data-grid-demo", redirectTo: "/home/(tabs:data-grid-demo)", pathMatch: "full" },
+    { path: "forms-demo", redirectTo: "/home/(tabs:forms-demo)", pathMatch: "full" },
     {
         children: [
             { path: "date-picker-demo", component: DatePickerDemoComponent, outlet: "tabs" },
@@ -23,7 +25,8 @@ export const routes: Routes = [
             { path: "collapsible-panel-demo", component: CollapsiblePanelDemoComponent, outlet: "tabs" },
             { path: "spinner-demo", component: SpinnerDemoComponent, outlet: "tabs" },
             { path: "modal-demo", component: ModalDemoComponent, outlet: "tabs" },
-            { path: "data-grid-demo", component: DataGridDemoComponent, outlet: "tabs" }
+            { path: "data-grid-demo", component: DataGridDemoComponent, outlet: "tabs" },
+            { path: "forms-demo", component: FormsDemoComponent, outlet: "tabs" }
         ],
         component: HomeComponent,
         path: "home"

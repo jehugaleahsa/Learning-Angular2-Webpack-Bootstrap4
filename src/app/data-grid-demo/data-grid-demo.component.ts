@@ -135,7 +135,7 @@ export class DataGridDemoComponent {
     @ViewChild(CoreCollapsiblePanelComponent) private exportPanel: CoreCollapsiblePanelComponent;
     private exported: any = null;
 
-    public getClientSideData(grid: CoreDataGridComponent): void {
+    private getClientSideData(grid: CoreDataGridComponent): void {
         grid.setData(data);
     }
 

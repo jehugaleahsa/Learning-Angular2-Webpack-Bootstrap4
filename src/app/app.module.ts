@@ -18,6 +18,9 @@ import { CollapsiblePanelDemoComponent } from "./collaspible-panel-demo/collapsi
 import { CoreUIModule } from "./core-ui/core-ui.module";
 import { DataGridDemoComponent } from "./data-grid-demo/data-grid-demo.component";
 import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.component";
+import { AccountService } from "./form-demo/account.service";
+import { FormsDemoComponent } from "./form-demo/form-demo.component";
+import { LookupService } from "./form-demo/lookup.service";
 import { HomeComponent } from "./home/home.component";
 import { ModalDemoComponent } from "./modal-demo/modal-demo.component";
 import { PanelDemoComponent } from "./panel-demo/panel-demo.component";
@@ -30,6 +33,7 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
     CollapsiblePanelDemoComponent,
     DataGridDemoComponent,
     DatePickerDemoComponent,
+    FormsDemoComponent,
     HomeComponent,
     ModalDemoComponent,
     PanelDemoComponent,
@@ -45,7 +49,9 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: AppSettings.baseHref },
-    { provide: LocationStrategy, useClass: PathLocationStrategy  }
+    { provide: LocationStrategy, useClass: PathLocationStrategy  },
+    AccountService,
+    LookupService
   ]
 })
 export class AppModule { }

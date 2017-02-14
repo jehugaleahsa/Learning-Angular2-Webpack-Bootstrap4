@@ -1,0 +1,143 @@
+<div *ngIf="isDataLoaded" class="form-demo">
+    <div class="row actions">
+        <div class="col-12">
+            <button class="btn btn-success" (click)="submit()">Submit</button>
+            <button class="btn btn-warning" (click)="reset()">Reset</button>
+            <button class="btn btn-danger" (click)="simulateError()">Simulate Error</button>
+        </div>
+    </div>
+    <div class="account-details">
+        <core-panel iconClass="fa fa-id-card" title="Account Details" [status]="getPanelStatus(frmAccount)">
+            <form #frmAccount="ngForm" name="frmAccount" [class.submitted]="isSubmitted" novalidate>
+                <div class="form-group row">
+                    <label for="txtAccountName" class="col-xs-12 col-sm-3 col-md-2 col-form-label required">Account Name</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtAccountName"
+                            name="txtAccountName"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.name"
+                            required />
+                    </div>
+                    <label class="col-xs-12 col-sm-3 col-md-2 col-form-label">Created On</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <p class="form-control-static">{{account.createdOn | date: 'MM/dd/yyyy'}}</p>
+                    </div>
+                </div>
+            </form>
+        </core-panel>
+    </div>
+    <div class="address">
+        <core-panel iconClass="fa fa-address-book" title="Contact Information" [status]="getPanelStatus(frmAddress)">
+            <form #frmAddress="ngForm" name="frmAddress" [class.submitted]="isSubmitted" novalidate>
+                <div class="form-group row">
+                    <label for="txtContactName" class="col-xs-12 col-sm-3 col-md-2 col-form-label required">Contact Name</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtContactName"
+                            name="txtContactName"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.contactName"
+                            required />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtContactPhone" class="col-xs-12 col-sm-3 col-md-2 col-form-label">Contact Phone</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtContactPhone"
+                            name="txtContactPhone"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.contactPhone"
+                            placeholder="ex.: (555) 555-5555" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtContactEmail" class="col-xs-12 col-sm-3 col-md-2 col-form-label">Contact Email</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtContactEmail"
+                            name="txtContactEmail"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.contactEmail"
+                            placeholder="ex.: jsmith@example.com" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtStreet1" class="col-xs-12 col-sm-3 col-md-2 col-form-label required">Street 1</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtStreet1"
+                            name="txtStreet1"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.street1"
+                            required />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtStreet2" class="col-xs-12 col-sm-3 col-md-2 col-form-label">Street 2</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtStreet2"
+                            name="txtStreet2"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.street2" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtStreet3" class="col-xs-12 col-sm-3 col-md-2 col-form-label">Street 3</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtStreet3"
+                            name="txtStreet3"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.street3" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtCity" class="col-xs-12 col-sm-3 col-md-2 col-form-label required">City</label>
+                    <div class="col-xs-12 col-sm-9 col-md-4">
+                        <input id="txtCity"
+                            name="txtCity"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.city" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtState" class="col-xs-12 col-sm-3 col-md-2 col-form-label required">State</label>
+                    <div class="col-xs-12 col-sm-9 col-md-2">
+                        <select id="txtState"
+                            name="txtState"
+                            class="form-control"
+                            [(ngModel)]="account.address.state"
+                            required>
+                            <option value=""><em>Choose a state</em></option>
+                            <option *ngFor="let state of states" [value]="state.abbreviation">
+                                {{state.abbreviation}}
+                                </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtZipCode" class="col-xs-12 col-sm-3 col-md-2 col-form-label required">Zip</label>
+                    <div class="col-xs-12 col-sm-9 col-md-2">
+                        <input id="txtZipCode"
+                            name="txtZipCode"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="account.address.zip"
+                            required />
+                    </div>
+                </div>
+            </form>
+        </core-panel>
+    </div>
+</div>
+<core-spinner-modal #spinnerModal></core-spinner-modal>
+<core-confirmation-modal #confirmationModal title="Confirm">
+    {{confirmationMessage}}
+</core-confirmation-modal>
+<core-alert-modal #errorModal title="Error">
+    {{errorMessage}}
+</core-alert-modal>
