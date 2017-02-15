@@ -9,11 +9,12 @@ import "@angular/platform-browser-dynamic";
 import "@angular/router";
 
 // RxJS
-// import "rxjs";
+import "rxjs";
 
 // Other
 // JS
 import "@ng-bootstrap/ng-bootstrap";
+import "lodash";
 import "moment";
 
 // CSS
