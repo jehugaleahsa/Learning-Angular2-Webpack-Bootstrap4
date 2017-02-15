@@ -19,7 +19,9 @@ import { CoreUIModule } from "./core-ui/core-ui.module";
 import { DataGridDemoComponent } from "./data-grid-demo/data-grid-demo.component";
 import { DatePickerDemoComponent } from "./date-picker-demo/date-picker-demo.component";
 import { AccountService } from "./form-demo/account.service";
+import { CoreEmailValidatorDirective } from "./form-demo/core-email-validator.directive";
 import { FormsDemoComponent } from "./form-demo/form-demo.component";
+import { FormGroupComponent } from "./form-demo/form-group.component";
 import { LookupService } from "./form-demo/lookup.service";
 import { HomeComponent } from "./home/home.component";
 import { ModalDemoComponent } from "./modal-demo/modal-demo.component";
@@ -33,7 +35,9 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
     CollapsiblePanelDemoComponent,
     DataGridDemoComponent,
     DatePickerDemoComponent,
+    CoreEmailValidatorDirective,
     FormsDemoComponent,
+    FormGroupComponent,
     HomeComponent,
     ModalDemoComponent,
     PanelDemoComponent,

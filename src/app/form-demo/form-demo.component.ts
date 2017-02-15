@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { FormControl, NgForm, NgModelGroup } from "@angular/forms";
 import * as _ from "lodash";
 import { Observable } from "rxjs";
 
@@ -21,12 +21,13 @@ export class FormsDemoComponent implements OnInit {
     private isDataLoaded = false;
     private account: Account = null;
     private states: State[] = null;
-    private isSubmitted = false;
     private confirmationMessage: string = null;
     private errorMessage: string = null;
-    @ViewChild("confirmationModal") private confirmationModal: CoreConfirmationModalComponent;
-    @ViewChild("errorModal") private errorModal: CoreAlertModalComponent;
-    @ViewChild("spinnerModal") private spinnerModal: CoreSpinnerModalComponent;
+    @ViewChild("frmTop") private pageForm: NgForm = null;
+    @ViewChildren(NgModelGroup) private modelGroups: QueryList<NgModelGroup> = null;
+    @ViewChild("confirmationModal") private confirmationModal: CoreConfirmationModalComponent = null;
+    @ViewChild("errorModal") private errorModal: CoreAlertModalComponent = null;
+    @ViewChild("spinnerModal") private spinnerModal: CoreSpinnerModalComponent = null;
 
     constructor(
         private accountService: AccountService,
@@ -38,29 +39,31 @@ export class FormsDemoComponent implements OnInit {
     }
 
     private submit(): boolean {
-        this.confirmationMessage = "Are you sure you want to submit?";
-        this.confirmationModal.open().filter((result) => result).subscribe(() => {
-            this.isSubmitted = true;
-        });
+        this.pageForm.onSubmit(null);
+        if (this.pageForm.valid) {
+            this.confirmationMessage = "Are you sure you want to submit?";
+            this.confirmationModal.open().filter((result) => result).subscribe(() => {
+                ;
+            });
+        }
         return false;
     }
 
     private reset(): boolean {
         this.confirmationMessage = "Are you sure you want to reset?";
         this.confirmationModal.open().filter((result) => result).subscribe(() => {
-            this.isSubmitted = false;
             this.reload();
         });
         return false;
     }
 
     private simulateError(): boolean {
-        this.isSubmitted = false;
         this.reload(true);
         return false;
     }
 
     private reload(isError = false): void {
+        this.pageForm.resetForm();
         this.isDataLoaded = false;
         this.spinnerModal.isOpen = true;
         const requests: any[] = [
@@ -79,16 +82,16 @@ export class FormsDemoComponent implements OnInit {
             this.isDataLoaded = true;
             this.spinnerModal.isOpen = false;
         }, (error) => {
-            this.errorMessage = error.Message;
+            this.errorMessage = error.Message + " Click OK to reload.";
             this.spinnerModal.isOpen = false;
             this.errorModal.open().subscribe(() => {
-                ;
+                this.reload();
             });
         });
     }
 
-    private getPanelStatus(form: FormGroup): string {
-        if (this.isSubmitted) {
+    private getPanelStatus(form: NgModelGroup): string {
+        if (this.pageForm.submitted) {
             return form.valid ? "success" : "danger";
         } else {
             return "primary";

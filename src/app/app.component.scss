@@ -2,19 +2,3 @@ label.required::after {
     content: "*";
     color: #FF0000;
 }
-
-.submitted .ng-invalid[required], .submitted .ng-invalid.required {
-    border-color: #FF0000;
-}
-
-.ng-invalid.ng-dirty[required], .ng-invalid.ng-dirty.required {
-    border-color: #FF0000;
-}
-
-.submitted .ng-valid.ng-dirty[required], .submitted .ng-valid.ng-dirty.required {
-    border-color: #42A948;
-}
-
-.ng-valid.ng-dirty[required], .ng-valid.ng-dirty.required {
-    border-color: #42A948;
-}
