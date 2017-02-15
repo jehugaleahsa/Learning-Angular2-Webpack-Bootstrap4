@@ -33,7 +33,6 @@ const configuration = {
         historyApiFallback: true
     },
     entry: {
-        polyfills: path.resolve(__dirname, './src/polyfills.ts'),
         vendor: path.resolve(__dirname, './src/vendor.ts'),
         app: path.resolve(__dirname, './src/main.ts')
     },
@@ -124,7 +123,7 @@ const configuration = {
             inject: "body",
             template: "./src/index.html",
             chunksSortMode: function (left, right) {
-                const values = { polyfills: 0, vendor: 1, app: 2 };
+                const values = { vendor: 0, app: 1 };
                 const leftValue = values[left.names[0]];
                 const rightValue = values[right.names[0]];
                 return leftValue - rightValue;
@@ -136,7 +135,7 @@ const configuration = {
             disable: false
         }),
         new CommonsChunkPlugin({
-            names: ["polyfills", "vendor"],
+            names: ["vendor"],
             minChunks: Infinity
         })
     ]

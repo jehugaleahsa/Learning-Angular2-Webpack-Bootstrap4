@@ -53,7 +53,10 @@ import { SpinnerDemoComponent } from "./spinner-demo/spinner-demo.component";
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: AppSettings.baseHref },
-    { provide: LocationStrategy, useClass: PathLocationStrategy  },
+    {
+      provide: LocationStrategy,
+      useClass: AppSettings.useHtml5Routing ? PathLocationStrategy : HashLocationStrategy
+    },
     AccountService,
     LookupService
   ]
