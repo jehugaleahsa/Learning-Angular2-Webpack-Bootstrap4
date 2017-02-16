@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const LoaderOptionsPlugin = webpack.LoaderOptionsPlugin;
+const ProvidePlugin = webpack.ProvidePlugin;
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
@@ -117,6 +118,10 @@ const configuration = {
         new LoaderOptionsPlugin({
             minimize: !isDebug,
             debug: isDebug
+        }),
+        new ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         }),
         new HtmlWebpackPlugin({
             filename: "index.html",

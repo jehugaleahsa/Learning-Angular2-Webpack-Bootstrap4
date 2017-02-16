@@ -19,6 +19,7 @@ import "./form-demo.component.scss";
 })
 export class FormsDemoComponent implements OnInit {
     private isDataLoaded = false;
+    private isSimulatingError = false;
     private account: Account = null;
     private states: State[] = null;
     private confirmationMessage: string = null;
@@ -43,7 +44,24 @@ export class FormsDemoComponent implements OnInit {
         if (this.pageForm.valid) {
             this.confirmationMessage = "Are you sure you want to submit?";
             this.confirmationModal.open().filter((result) => result).subscribe(() => {
-                ;
+                this.spinnerModal.isOpen = true;
+                let request: Observable<any> = Observable.timer(500).take(1);
+                if (this.isSimulatingError) {
+                    request = request.concat(Observable.throw({
+                        Message: "An error occurred. Your request could not be submitted."
+                    }));
+                }
+                request.subscribe((x) => {
+                    console.log("Success");
+                    this.spinnerModal.isOpen = false;
+                }, (error) => {
+                    console.log("Error");
+                    this.errorMessage = error.Message;
+                    this.spinnerModal.isOpen = false;
+                    this.errorModal.open().subscribe(() => {
+                        ;
+                    });
+                });
             });
         }
         return false;
@@ -52,13 +70,8 @@ export class FormsDemoComponent implements OnInit {
     private reset(): boolean {
         this.confirmationMessage = "Are you sure you want to reset?";
         this.confirmationModal.open().filter((result) => result).subscribe(() => {
-            this.reload();
+            this.reload(this.isSimulatingError);
         });
-        return false;
-    }
-
-    private simulateError(): boolean {
-        this.reload(true);
         return false;
     }
 
@@ -94,7 +107,11 @@ export class FormsDemoComponent implements OnInit {
         if (this.pageForm.submitted) {
             return form.valid ? "success" : "danger";
         } else {
-            return "primary";
+            return null;
         }
+    }
+
+    private isErrorSummaryShown(form: NgForm): boolean {
+        return form.submitted && form.invalid;
     }
 }

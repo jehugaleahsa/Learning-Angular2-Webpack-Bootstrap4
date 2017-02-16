@@ -2,3 +2,15 @@ label.required::after {
     content: "*";
     color: #FF0000;
 }
+
+.page-footer .support-link {
+    color: #FFF;
+}
+
+.page-footer .app-version {
+    opacity: 0.5;
+}
+
+.error-message-icon {
+    color: #F80
+}

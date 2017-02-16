@@ -15,9 +15,12 @@ import "@angular/router";
 // RxJS
 import "rxjs";
 
+// jQuery
+// import "jquery";
+
 // Other
-// JS
 import "@ng-bootstrap/ng-bootstrap";
+// import "bootstrap/dist/js/bootstrap.js";
 import "lodash";
 import "moment";
 
